@@ -15,15 +15,13 @@ public class QuantumHBRequest {
     String _serialNum;
     String _ipAddress;
     String _macAddress;
-    String _traceNum;
     String _port;
 
     public QuantumHBRequest() {
     }
 
     public QuantumHBRequest(String userName, String password, String token, String terminalID, String posID,
-                            int timeout, String serialNum, String ipAddress, String macAddress, String traceNum,
-                            String port) {
+                            int timeout, String serialNum, String ipAddress, String macAddress, String port) {
         this._userName = userName;
         this._password = password;
         this._token = token;
@@ -33,7 +31,6 @@ public class QuantumHBRequest {
         this._serialNum = serialNum;
         this._ipAddress = ipAddress;
         this._macAddress = macAddress;
-        this._traceNum = traceNum;
         this._port = port;
     }
 
@@ -82,7 +79,7 @@ public class QuantumHBRequest {
         this._posID = posID;
     }
 
-    @JsonProperty("Timeout")
+    @JsonProperty("TimeOut")
     @JsonAlias("TimeOut")
     public int getTimeout() {
         return _timeout;
@@ -119,15 +116,6 @@ public class QuantumHBRequest {
         this._macAddress = macAddress;
     }
 
-    @JsonProperty("TraceNum")
-    public String getTraceNum() {
-        return _traceNum;
-    }
-
-    public void setTraceNum(String traceNum) {
-        this._traceNum = traceNum;
-    }
-
     @JsonProperty("Port")
     public String getPort() {
         return _port;
@@ -151,7 +139,6 @@ public class QuantumHBRequest {
                 this._serialNum == null || this._serialNum.isEmpty() || this._serialNum.isBlank() ||
                 this._terminalID == null || this._terminalID.isEmpty() || this._terminalID.isBlank() ||
                 this._ipAddress == null || this._ipAddress.isEmpty() || this._ipAddress.isBlank() ||
-                !(this._traceNum == null || this._traceNum.isEmpty() || this._traceNum.isBlank()) ||
                 this._timeout < 90;
         return !result;
     }
