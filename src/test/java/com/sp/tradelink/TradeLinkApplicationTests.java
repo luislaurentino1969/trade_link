@@ -1,6 +1,5 @@
 package com.sp.tradelink;
 
-import com.sp.tradelink.config.CountDownHandler;
 import com.sp.tradelink.main.TradeLinkApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +28,8 @@ class TradeLinkApplicationTests {
     @Autowired
     private ApplicationContext applicationContext;
 
-    @Autowired
-    private CountDownHandler countDownLatchHandler;
+//    @Autowired
+//    private CountDownHandler countDownLatchHandler;
     @Test
     public void testIntegration() throws Exception {
         if (false) {
@@ -45,8 +44,8 @@ class TradeLinkApplicationTests {
                 System.out.println("sent message=" + message);
             }
 
-            countDownLatchHandler.getLatch().await(10000, TimeUnit.SECONDS);
-            assertTrue(countDownLatchHandler.getLatch().getCount() == 0);
+//            countDownLatchHandler.getLatch().await(10000, TimeUnit.SECONDS);
+//            assertTrue(countDownLatchHandler.getLatch().getCount() == 0);
         } else {
             assertTrue(true);
         }
