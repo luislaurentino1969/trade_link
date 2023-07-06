@@ -27,7 +27,7 @@ public class ActiveMQInboundConfig {
 //    @Value("${destination.integration}")
     private String integrationDestination = "request.q";
 
-//    @Value("${spring.activemq.broker-url}")
+    @Value("${spring.activemq.broker-url}")
     private String messagingServer;
 
     @Bean
