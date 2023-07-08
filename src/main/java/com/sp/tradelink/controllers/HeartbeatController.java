@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.integration.annotation.IntegrationComponentScan;
+import org.springframework.integration.support.MessageBuilder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -19,12 +20,6 @@ import java.util.Map;
 public class HeartbeatController {
     private final Logger logger = LoggerFactory.getLogger(HeartbeatController.class);
 
-    @Value("${app.server.url}")
-    private String SERVER;
-
-    @Value("${app.server.endpoint}")
-    private String ENDPOINT;
-
     @Autowired
     private HeartbeatGateway gateway;
 
@@ -32,7 +27,7 @@ public class HeartbeatController {
     public ResponseEntity<?> initiateMainLinkHeartbeat(@RequestBody QuantumHBRequest info, @RequestHeader Map<String, String> headers) {
 
 //        return new ResponseEntity<>(callAPIUsingRestTemplate(info), HttpStatus.OK);
-        return new ResponseEntity<>(gateway.startHeartbeat(info).getPayload(), HttpStatus.OK);
+        return new ResponseEntity<>(gateway.startHeartbeat(MessageBuilder.withPayload(info).build()).getPayload(), HttpStatus.OK);
     }
 
 }

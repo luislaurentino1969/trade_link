@@ -1,5 +1,6 @@
 package com.sp.tradelink.utils;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Map;
@@ -21,6 +22,7 @@ public class StringUtils {
         }
         try {
             ObjectMapper mapper = new ObjectMapper();
+            mapper.setSerializationInclusion(JsonInclude.Include.ALWAYS);
             return mapper.writeValueAsString(object);
         } catch (Exception jex) {
             return null;

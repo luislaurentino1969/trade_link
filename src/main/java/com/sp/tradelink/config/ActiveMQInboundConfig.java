@@ -13,6 +13,7 @@ import org.springframework.jms.listener.SimpleMessageListenerContainer;
 import org.springframework.messaging.MessageChannel;
 
 import javax.jms.ConnectionFactory;
+import javax.jms.JMSException;
 
 @Configuration
 @EnableIntegration
@@ -29,8 +30,10 @@ public class ActiveMQInboundConfig {
     }
 
     @Bean(name = "connectionFactory")
-    public ConnectionFactory serverConnection() {
-        return new ActiveMQConnectionFactory(messagingServer);
+    public ConnectionFactory serverConnection() throws JMSException {
+        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(messagingServer);
+//        connectionFactory.createQueueConnection();
+        return connectionFactory;
     }
 
     @Bean

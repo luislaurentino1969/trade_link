@@ -1,13 +1,11 @@
 package com.sp.tradelink.gateways;
 
 import com.sp.tradelink.models.QuantumHBRequest;
-import org.springframework.integration.annotation.Gateway;
+import com.sp.tradelink.models.QuantumHBResponse;
 import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.messaging.Message;
 
-@MessagingGateway
-public interface HeartbeatGateway {
-
-    @Gateway(requestChannel = "heartbeat-in-channel")
+@MessagingGateway(defaultRequestChannel = "serverToDeviceChannel", defaultReplyChannel = "serverToDeviceReplyChannel")
+public interface ServerToDeviceGateway {
     Message<?> startHeartbeat(Message<?> request);
 }

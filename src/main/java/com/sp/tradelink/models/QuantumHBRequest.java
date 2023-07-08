@@ -1,21 +1,39 @@
 package com.sp.tradelink.models;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.sp.tradelink.utils.StringUtils;
+import lombok.Getter;
+import lombok.Setter;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
+@Setter
 public class QuantumHBRequest {
+    @JsonProperty("UserName")
     String _userName;
+    @JsonProperty("Password")
     String _password;
+    @JsonProperty("Token")
     String _token;
+    @JsonProperty("TerminalID")
     String _terminalID;
+    @JsonProperty("PosID")
     String _posID;
+    @JsonProperty("TimeOut")
     int _timeout;
+    @JsonProperty("SerialNum")
     String _serialNum;
+    @JsonProperty("IPaddress")
     String _ipAddress;
+    @JsonProperty("MacAddress")
     String _macAddress;
+    @JsonProperty("Port")
     String _port;
+    @JsonProperty("TraceNum")
+    String _traceNum;
+    @JsonProperty("ExtData")
+    String _extData;
 
     public QuantumHBRequest() {
     }
@@ -31,97 +49,6 @@ public class QuantumHBRequest {
         this._serialNum = serialNum;
         this._ipAddress = ipAddress;
         this._macAddress = macAddress;
-        this._port = port;
-    }
-
-    @JsonProperty("UserName")
-    public String getUserName() {
-        return _userName;
-    }
-
-    public void setUserName(String userName) {
-        this._userName = userName;
-    }
-
-    @JsonProperty("Password")
-    public String getPassword() {
-        return _password;
-    }
-
-    public void setPassword(String password) {
-        this._password = password;
-    }
-
-    @JsonProperty("Token")
-    public String getToken() {
-        return _token;
-    }
-
-    public void setToken(String token) {
-        this._token = token;
-    }
-
-    @JsonProperty("TerminalID")
-    public String getTerminalID() {
-        return _terminalID;
-    }
-
-    public void setTerminalID(String terminalID) {
-        this._terminalID = terminalID;
-    }
-
-    @JsonProperty("PosID")
-    public String getPosID() {
-        return _posID;
-    }
-
-    public void setPosID(String posID) {
-        this._posID = posID;
-    }
-
-    @JsonProperty("TimeOut")
-    @JsonAlias("TimeOut")
-    public int getTimeout() {
-        return _timeout;
-    }
-
-    public void setTimeout(int timeout) {
-        this._timeout = timeout;
-    }
-
-    @JsonProperty("SerialNum")
-    public String getSerialNum() {
-        return _serialNum;
-    }
-
-    public void setSerialNum(String serialNum) {
-        this._serialNum = serialNum;
-    }
-
-    @JsonProperty("IPaddress")
-    public String getIPAddress() {
-        return _ipAddress;
-    }
-
-    public void setIPAddress(String ipAddress) {
-        this._ipAddress = ipAddress;
-    }
-
-    @JsonProperty("MacAddress")
-    public String getMacAddress() {
-        return _macAddress;
-    }
-
-    public void setMacAddress(String macAddress) {
-        this._macAddress = macAddress;
-    }
-
-    @JsonProperty("Port")
-    public String getPort() {
-        return _port;
-    }
-
-    public void setPort(String port) {
         this._port = port;
     }
 

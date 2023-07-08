@@ -1,152 +1,46 @@
 package com.sp.tradelink.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sp.tradelink.utils.StringUtils;
+import lombok.Getter;
+import lombok.Setter;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
+@Setter
 public class QuantumHBResponse {
 
+    @JsonProperty("ResultCode")
     private int _resultCode;
+    @JsonProperty("ResultMsg")
     private String _resultMsg;
+    @JsonProperty("IPaddress")
     private String _ipAddress;
+    @JsonProperty("PosID")
     private String _posID;
+    @JsonProperty("Port")
     private String _port;
+    @JsonProperty("MacAddress")
     private String _macAddress;
+    @JsonProperty("TerminalID")
     private String _terminalID;
+    @JsonProperty("Token")
     private String _token;
+    @JsonProperty("SerialNum")
     private String _serialNum;
+    @JsonProperty("Amount")
     private String _amount;
+    @JsonProperty("TraceNum")
     private String _traceNum;
+    @JsonProperty("POSLinkRequest")
     private String _posLinkRequest;
+    @JsonProperty("POSLinkResponse")
     private String _posLinkResponse;
+    @JsonProperty("ExtData")
     private String _extData;
 
     public QuantumHBResponse() {
-    }
-
-    @JsonProperty("ResultCode")
-    public int getResultCode() {
-        return this._resultCode;
-    }
-
-    public void setResultCode(int resultCode) {
-        this._resultCode = resultCode;
-    }
-
-    @JsonProperty("ResultMsg")
-    public String getResultMsg() {
-        return this._resultMsg;
-    }
-
-    public void setResultMsg(String resultMsg) {
-        this._resultMsg = resultMsg;
-    }
-
-    @JsonProperty("IPaddress")
-    public String getIPAddress() {
-        return this._ipAddress;
-    }
-
-    public void setIPAddress(String ipAddress) {
-        this._ipAddress = ipAddress;
-    }
-
-    @JsonProperty("PosID")
-    public String getPosID() {
-        return this._posID;
-    }
-
-    public void setPosID(String posID) {
-        this._posID = posID;
-    }
-
-    @JsonProperty("Port")
-    public String getPort() {
-        return this._port;
-    }
-
-    public void setPort(String port) {
-        this._port = port;
-    }
-
-    @JsonProperty("MacAddress")
-    public String getMacAddress() {
-        return this._macAddress;
-    }
-
-    public void setMacAddress(String macAddress) {
-        this._macAddress = macAddress;
-    }
-
-    @JsonProperty("TerminalID")
-    public String getTerminalID() {
-        return this._terminalID;
-    }
-
-    public void setTerminalID(String terminalID) {
-        this._terminalID = terminalID;
-    }
-
-    @JsonProperty("Token")
-    public String getToken() {
-        return this._token;
-    }
-
-    public void setToken(String token) {
-        this._token = token;
-    }
-
-    @JsonProperty("SerialNum")
-    public String getSerialNum() {
-        return this._serialNum;
-    }
-
-    public void setSerialNum(String serialNum) {
-        this._serialNum = serialNum;
-    }
-
-    @JsonProperty("Amount")
-    public String getAmount() {
-        return this._amount;
-    }
-
-    public void setAmount(String amount) {
-        this._amount = amount;
-    }
-
-    @JsonProperty("TraceNum")
-    public String getTraceNum() {
-        return this._traceNum;
-    }
-
-    public void setTraceNum(String traceNum) {
-        this._traceNum = traceNum;
-    }
-
-    @JsonProperty("POSLinkRequest")
-    public String getPOSLinkRequest() {
-        return this._posLinkRequest;
-    }
-
-    public void setPOSLinkRequest(String posLinkRequest) {
-        this._posLinkRequest = posLinkRequest;
-    }
-
-    @JsonProperty("POSLinkResponse")
-    public String getPOSLinkResponse() {
-        return this._posLinkResponse;
-    }
-
-    public void setPOSLinkResponse(String posLinkResponse) {
-        this._posLinkResponse = posLinkResponse;
-    }
-
-    @JsonProperty("ExtData")
-    public String getExtData() {
-        return this._extData;
-    }
-
-    public void setExtData(String extData) {
-        this._extData = extData;
     }
 
     @Override

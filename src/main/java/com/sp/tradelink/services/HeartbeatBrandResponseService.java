@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
-public class HeartbeatResponseService {
-    private static final Logger logger = LoggerFactory.getLogger(HeartbeatResponseService.class);
+public class HeartbeatBrandResponseService {
+    private static final Logger logger = LoggerFactory.getLogger(HeartbeatBrandResponseService.class);
 
 //    @Autowired
 //    private ActiveMQInboundConfig.HeartbeatResponseGateway gateway;
