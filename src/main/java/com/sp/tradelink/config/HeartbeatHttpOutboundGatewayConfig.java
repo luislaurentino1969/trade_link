@@ -26,12 +26,29 @@ public class HeartbeatHttpOutboundGatewayConfig {
     }
     @Bean
     @ServiceActivator(inputChannel = "serverToDeviceChannel")
-    public MessageHandler postToService() {
+    public MessageHandler postServerToDeviceService() {
         HttpRequestExecutingMessageHandler handler = new HttpRequestExecutingMessageHandler(SERVERTODEVICE);
         handler.setHttpMethod(HttpMethod.POST);
         handler.setExpectReply(true);
         handler.setExpectedResponseType(Object.class);
         handler.setOutputChannelName("serverToDeviceReplyChannel");
+        return handler;
+    }
+
+    @Bean public MessageChannel deviceToServerChannel() {
+        return new DirectChannel();
+    }
+    @Bean public MessageChannel deviceToServerReplyChannel() {
+        return new DirectChannel();
+    }
+    @Bean
+    @ServiceActivator(inputChannel = "deviceToServerChannel")
+    public MessageHandler postDeviceToServerService() {
+        HttpRequestExecutingMessageHandler handler = new HttpRequestExecutingMessageHandler(DEVICETOSERVER);
+        handler.setHttpMethod(HttpMethod.POST);
+        handler.setExpectReply(true);
+        handler.setExpectedResponseType(Object.class);
+        handler.setOutputChannelName("deviceToServerReplyChannel");
         return handler;
     }
 }

@@ -1,16 +1,12 @@
 package com.sp.tradelink.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sp.tradelink.utils.StringUtils;
 import lombok.Getter;
 import lombok.Setter;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @Setter
-public class QuantumHBResponse {
-
+public class QuantumUploadResponse {
     @JsonProperty("ResultCode")
     private int resultCode;
     @JsonProperty("ResultTxt")
@@ -42,8 +38,4 @@ public class QuantumHBResponse {
     @JsonProperty("ExtData")
     private String extData;
 
-    @Override
-    public String toString() {
-        return StringUtils.convertObject2Json(this);
-    }
 }

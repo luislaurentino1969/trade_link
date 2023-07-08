@@ -17,12 +17,19 @@ public class StringUtils {
     }
 
     public static String convertObject2Json(Object object) {
+        return convertObject2Json(object, true);
+    }
+
+    public static String convertObject2Json(Object object, boolean includeNullFields) {
         if (object == null) {
             return null;
         }
         try {
             ObjectMapper mapper = new ObjectMapper();
-            mapper.setSerializationInclusion(JsonInclude.Include.ALWAYS);
+            if (includeNullFields)
+                mapper.setSerializationInclusion(JsonInclude.Include.ALWAYS);
+            else
+                mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
             return mapper.writeValueAsString(object);
         } catch (Exception jex) {
             return null;

@@ -1,11 +1,6 @@
 package com.sp.tradelink.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.sp.tradelink.gateways.DeviceToServerGateway;
-import com.sp.tradelink.models.QuantumHBRequest;
-import com.sp.tradelink.models.QuantumHBResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +10,11 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.stereotype.Service;
 
 @Service
-public class HeartbeatBrandRequestService {
-    private static final Logger logger = LoggerFactory.getLogger(HeartbeatBrandRequestService.class);
+public class BrandHeartbeatRequestService {
+    private static final Logger logger = LoggerFactory.getLogger(BrandHeartbeatRequestService.class);
 
     @Autowired
-    private QuantumHeartbeatRequestService cloudGateway;
+    private QuantumHeartbeatRequestService cloudService;
 
     @ServiceActivator(inputChannel = "heartbeat-in-channel", outputChannel = "heartbeat-out-channel")
     public Message<?> publishHeartbeatRequest(Message<?> heartbeat) {
@@ -30,7 +25,7 @@ public class HeartbeatBrandRequestService {
     @ServiceActivator(inputChannel = "heartbeat-out-channel", outputChannel = "heartbeat-reply-channel")
     public Message<?> processHeartbeatRequest(Message<?> heartbeat) throws JsonProcessingException {
         logger.info("Processing the quantum heartbeat process.");
-        return cloudGateway.startHeartbeat(heartbeat);
+        return cloudService.startHeartbeat(heartbeat);
     }
 
     @ServiceActivator(inputChannel = "heartbeat-reply-channel")

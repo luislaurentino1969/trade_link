@@ -17,7 +17,7 @@ import javax.jms.JMSException;
 
 @Configuration
 @EnableIntegration
-public class ActiveMQInboundConfig {
+public class ActiveMQServerToDeviceConfig {
     @Value("${request.integration}")
     private String integrationDestination;
 
@@ -27,34 +27,6 @@ public class ActiveMQInboundConfig {
     @Bean("heartbeat-in-channel")
     public MessageChannel heartbeatInChannel() {
         return new DirectChannel();
-    }
-
-    @Bean(name = "connectionFactory")
-    public ConnectionFactory serverConnection() throws JMSException {
-        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(messagingServer);
-//        connectionFactory.createQueueConnection();
-        return connectionFactory;
-    }
-
-    @Bean
-    public SimpleMessageListenerContainer queueContainer(@Qualifier("connectionFactory") ConnectionFactory cf) {
-        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-        container.setConnectionFactory(cf);
-        container.setDestinationName(integrationDestination);
-        return container;
-    }
-
-    @Bean
-    public ChannelPublishingJmsMessageListener channelListener() {
-        return new ChannelPublishingJmsMessageListener();
-    }
-
-    @Bean
-    public JmsMessageDrivenEndpoint endpoint(SimpleMessageListenerContainer queueContainer,
-                                             ChannelPublishingJmsMessageListener channelListener) {
-        JmsMessageDrivenEndpoint endpoint = new JmsMessageDrivenEndpoint(queueContainer, channelListener);
-        endpoint.setOutputChannel(heartbeatInChannel());
-        return endpoint;
     }
 
     @Bean("heartbeat-out-channel")
@@ -67,12 +39,30 @@ public class ActiveMQInboundConfig {
         return new DirectChannel();
     }
 
-//    @Bean
-//    @ServiceActivator(inputChannel = "outputChannel")
-//    public MessageHandler jmsInMessageHandler(JmsTemplate jmsTemplate) {
-//        JmsSendingMessageHandler handler = new JmsSendingMessageHandler(jmsTemplate);
-//        handler.setDestinationName(integrationDestination);
-//        return handler;
-//    }
+    @Bean(name = "connectionFactory")
+    public ConnectionFactory serverConnection() throws JMSException {
+        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(messagingServer);
+        return connectionFactory;
+    }
 
+    @Bean
+    public SimpleMessageListenerContainer queueHeartbeatContainer(@Qualifier("connectionFactory") ConnectionFactory cf) {
+        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+        container.setConnectionFactory(cf);
+        container.setDestinationName(integrationDestination);
+        return container;
+    }
+
+    @Bean
+    public ChannelPublishingJmsMessageListener channelListener() {
+        return new ChannelPublishingJmsMessageListener();
+    }
+
+    @Bean
+    public JmsMessageDrivenEndpoint heartbeatEndpoint(SimpleMessageListenerContainer queueHeartbeatContainer,
+                                                      ChannelPublishingJmsMessageListener channelListener) {
+        JmsMessageDrivenEndpoint endpoint = new JmsMessageDrivenEndpoint(queueHeartbeatContainer, channelListener);
+        endpoint.setOutputChannel(heartbeatInChannel());
+        return endpoint;
+    }
 }

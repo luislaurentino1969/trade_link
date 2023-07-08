@@ -1,7 +1,8 @@
 package com.sp.tradelink.models;
 
-import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sp.tradelink.utils.StringUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,45 +12,31 @@ import lombok.Setter;
 @Setter
 public class QuantumHBRequest {
     @JsonProperty("UserName")
-    String _userName;
+    private String userName;
     @JsonProperty("Password")
-    String _password;
+    private String password;
     @JsonProperty("Token")
-    String _token;
+    private String token;
     @JsonProperty("TerminalID")
-    String _terminalID;
+    private String terminalID;
     @JsonProperty("PosID")
-    String _posID;
+    private String posID;
     @JsonProperty("TimeOut")
-    int _timeout;
+    private int timeout;
     @JsonProperty("SerialNum")
-    String _serialNum;
+    private String serialNum;
     @JsonProperty("IPaddress")
-    String _ipAddress;
+    private String ipAddress;
     @JsonProperty("MacAddress")
-    String _macAddress;
+    private String macAddress;
     @JsonProperty("Port")
-    String _port;
+    private String port;
     @JsonProperty("TraceNum")
-    String _traceNum;
+    private String traceNum;
     @JsonProperty("ExtData")
-    String _extData;
+    private String extData;
 
     public QuantumHBRequest() {
-    }
-
-    public QuantumHBRequest(String userName, String password, String token, String terminalID, String posID,
-                            int timeout, String serialNum, String ipAddress, String macAddress, String port) {
-        this._userName = userName;
-        this._password = password;
-        this._token = token;
-        this._terminalID = terminalID;
-        this._posID = posID;
-        this._timeout = timeout;
-        this._serialNum = serialNum;
-        this._ipAddress = ipAddress;
-        this._macAddress = macAddress;
-        this._port = port;
     }
 
     @Override
@@ -60,13 +47,13 @@ public class QuantumHBRequest {
     @JsonIgnore(true)
     public boolean isValid() {
         boolean result;
-        result = this._userName == null || this._userName.isEmpty() || this._userName.isBlank() ||
-                this._password == null || this._password.isEmpty() || this._password.isBlank() ||
-                this._posID == null || this._posID.isEmpty() || this._posID.isBlank() ||
-                this._serialNum == null || this._serialNum.isEmpty() || this._serialNum.isBlank() ||
-                this._terminalID == null || this._terminalID.isEmpty() || this._terminalID.isBlank() ||
-                this._ipAddress == null || this._ipAddress.isEmpty() || this._ipAddress.isBlank() ||
-                this._timeout < 90;
+        result = this.userName == null || this.userName.isEmpty() || this.userName.isBlank() ||
+                this.password == null || this.password.isEmpty() || this.password.isBlank() ||
+                this.posID == null || this.posID.isEmpty() || this.posID.isBlank() ||
+                this.serialNum == null || this.serialNum.isEmpty() || this.serialNum.isBlank() ||
+                this.terminalID == null || this.terminalID.isEmpty() || this.terminalID.isBlank() ||
+                this.ipAddress == null || this.ipAddress.isEmpty() || this.ipAddress.isBlank() ||
+                this.timeout < 90;
         return !result;
     }
 }
