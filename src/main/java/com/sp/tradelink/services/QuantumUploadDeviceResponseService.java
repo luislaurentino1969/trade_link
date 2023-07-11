@@ -39,7 +39,7 @@ public class QuantumUploadDeviceResponseService {
             response.setResultMsg("Error converting response format.");
         }
 
-        return MessageBuilder.withPayload(response).build();
+        return MessageBuilder.withPayload(response.toString()).build();
     }
 
 }

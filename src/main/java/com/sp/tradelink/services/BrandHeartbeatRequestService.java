@@ -20,31 +20,9 @@ public class BrandHeartbeatRequestService {
     @Autowired
     private QuantumHeartbeatRequestService cloudService;
 
-    @ServiceActivator(inputChannel = "heartbeat-in-channel", outputChannel = "heartbeat-out-channel")
-    public Message<?> publishHeartbeatRequest(Object heartbeat) {
-        logger.info("Will start quantum heartbeat process.");
-        return MessageBuilder.withPayload(heartbeat).build();
-    }
-    @ServiceActivator(inputChannel = "heartbeat-in-channel", outputChannel = "heartbeat-out-channel")
-    public Message<?> publishHeartbeatRequest(Message<?> heartbeat) {
-        logger.info("Will start quantum heartbeat process.");
-        return heartbeat;
-    }
-
-    @ServiceActivator(inputChannel = "heartbeat-out-channel", outputChannel = "heartbeat-reply-channel")
-    public Message<?> processHeartbeatRequest(Message<?> heartbeat) throws JsonProcessingException {
+    @ServiceActivator(inputChannel = "hb-request-in-channel")
+    public Message<?> processHeartbeatRequest(Message<?> heartbeat) {
         logger.info("Processing the quantum heartbeat process.");
         return cloudService.startHeartbeat(heartbeat);
-    }
-
-    @ServiceActivator(inputChannel = "heartbeat-reply-channel")
-    public void sendHeartbeatResponse(Message<?> heartbeat) {
-        logger.info("Will send the heartbeat response back to caller.");
-        MessageChannel replyChannel = (MessageChannel) heartbeat.getHeaders().getReplyChannel();
-        if (replyChannel != null) {
-            replyChannel.send(heartbeat);
-        } else {
-            logger.debug("reply channel not defined.");
-        }
     }
 }
