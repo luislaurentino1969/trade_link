@@ -7,10 +7,12 @@ import com.sp.tradelink.utils.StringUtils;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @Setter
-public class QuantumHBRequest {
+public class QuantumHBRequest implements Serializable {
     @JsonProperty("UserName")
     private String userName;
     @JsonProperty("Password")

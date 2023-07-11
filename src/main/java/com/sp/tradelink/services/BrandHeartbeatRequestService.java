@@ -5,9 +5,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.annotation.ServiceActivator;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
+
+import javax.jms.TextMessage;
 
 @Service
 public class BrandHeartbeatRequestService {
@@ -16,6 +20,11 @@ public class BrandHeartbeatRequestService {
     @Autowired
     private QuantumHeartbeatRequestService cloudService;
 
+    @ServiceActivator(inputChannel = "heartbeat-in-channel", outputChannel = "heartbeat-out-channel")
+    public Message<?> publishHeartbeatRequest(Object heartbeat) {
+        logger.info("Will start quantum heartbeat process.");
+        return MessageBuilder.withPayload(heartbeat).build();
+    }
     @ServiceActivator(inputChannel = "heartbeat-in-channel", outputChannel = "heartbeat-out-channel")
     public Message<?> publishHeartbeatRequest(Message<?> heartbeat) {
         logger.info("Will start quantum heartbeat process.");
@@ -32,6 +41,10 @@ public class BrandHeartbeatRequestService {
     public void sendHeartbeatResponse(Message<?> heartbeat) {
         logger.info("Will send the heartbeat response back to caller.");
         MessageChannel replyChannel = (MessageChannel) heartbeat.getHeaders().getReplyChannel();
-        replyChannel.send(heartbeat);
+        if (replyChannel != null) {
+            replyChannel.send(heartbeat);
+        } else {
+            logger.debug("reply channel not defined.");
+        }
     }
 }
