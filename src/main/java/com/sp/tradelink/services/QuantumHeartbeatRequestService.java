@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sp.tradelink.gateways.HttpServerToDeviceGateway;
 import com.sp.tradelink.models.QuantumHBResponse;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.integration.support.MessageBuilder;
@@ -14,10 +13,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class QuantumHeartbeatRequestService {
-    public static Logger logger = LoggerFactory.getLogger(QuantumHeartbeatRequestService.class);
+    public final Logger logger;
 
     @Autowired
     private HttpServerToDeviceGateway httpServerToDeviceGateway;
+
+    public QuantumHeartbeatRequestService(Logger logger) {
+        this.logger = logger;
+    }
 
     public Message<?> startHeartbeat(Message<?> request) {
         logger.debug("Will send the heartbeat request to cloud.\n{}",request.toString());
@@ -37,8 +40,25 @@ public class QuantumHeartbeatRequestService {
             response.setResultCode(-1);
             response.setResultMsg("Error converting response format.");
         }
+        logger.debug("Will return heartbeat response to device.\n{}",response.toString());
 
-        return MessageBuilder.withPayload(response.toString()).build();
+        MessageBuilder<?> responseMessage = MessageBuilder.withPayload(response.toString());
+        if (request.getHeaders().containsKey("Brand")) {
+            responseMessage.setHeader("Brand", request.getHeaders().get("Brand"));
+        }
+        if (request.getHeaders().containsKey("Target")) {
+            responseMessage.setHeader("Target", request.getHeaders().get("Target"));
+        }
+        if (request.getHeaders().containsKey("Source")) {
+            responseMessage.setHeader("Source", request.getHeaders().get("Source"));
+        }
+        if (request.getHeaders().containsKey("COMMAND_TYPE")) {
+            responseMessage.setHeader("COMMAND_TYPE", request.getHeaders().get("COMMAND_TYPE"));
+        }
+        if (request.getHeaders().containsKey("TRACE_NUM")) {
+            responseMessage.setHeader("TRACE_NUM", request.getHeaders().get("TRACE_NUM"));
+        }
+        return responseMessage.build();
     }
 
 }

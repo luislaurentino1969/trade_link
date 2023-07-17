@@ -3,7 +3,7 @@ package com.sp.tradelink.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sp.tradelink.utils.StringUtils;
+import com.sp.tradelink.utils.AppStringUtils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,7 +24,7 @@ public class QuantumHBRequest implements Serializable {
     @JsonProperty("PosID")
     private String posID;
     @JsonProperty("TimeOut")
-    private int timeout;
+    private String timeout;
     @JsonProperty("SerialNum")
     private String serialNum;
     @JsonProperty("IPaddress")
@@ -43,7 +43,7 @@ public class QuantumHBRequest implements Serializable {
 
     @Override
     public String toString() {
-        return StringUtils.convertObject2Json(this);
+        return AppStringUtils.convertObject2Json(this);
     }
 
     @JsonIgnore(true)
@@ -55,7 +55,7 @@ public class QuantumHBRequest implements Serializable {
                 this.serialNum == null || this.serialNum.isEmpty() || this.serialNum.isBlank() ||
                 this.terminalID == null || this.terminalID.isEmpty() || this.terminalID.isBlank() ||
                 this.ipAddress == null || this.ipAddress.isEmpty() || this.ipAddress.isBlank() ||
-                this.timeout < 90;
+                Integer.parseInt(this.timeout) < 90;
         return !result;
     }
 }

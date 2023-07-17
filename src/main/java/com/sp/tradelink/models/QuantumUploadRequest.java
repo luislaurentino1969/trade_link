@@ -1,6 +1,8 @@
 package com.sp.tradelink.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.sp.tradelink.utils.AppStringUtils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,8 +34,12 @@ public class QuantumUploadRequest {
     @JsonProperty("CommandType")
     private String commandType;
     @JsonProperty("CommandResponse")
-    private String commandResponse;
+    private JsonNode commandResponse;
     @JsonProperty("ExtData")
-    private String extData;
+    private JsonNode extData;
 
+    @Override
+    public String toString() {
+        return AppStringUtils.convertObject2Json(this);
+    }
 }

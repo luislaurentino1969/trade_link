@@ -1,6 +1,6 @@
 package com.sp.tradelink.config;
 
-import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,11 +18,6 @@ import javax.jms.ConnectionFactory;
 public class ActiveMQServerToDeviceInboundConfig {
     @Value("${server.to.device.queue}")
     private String serverToDeviceQueue;
-    @Value("${reply.integration}")
-    private String replyQueue;
-
-    @Value("${spring.activemq.broker-url}")
-    private String messagingServer;
 
     //region InboundGateway
     @Bean("hb-request-in-channel")
@@ -33,17 +28,11 @@ public class ActiveMQServerToDeviceInboundConfig {
     public MessageChannel hbResponseInChannel() {
         return new DirectChannel();
     }
+
     @Bean
-    public ConnectionFactory hbInboundConnection() {
-        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(messagingServer);
-        connectionFactory.setUserName("admin");
-        connectionFactory.setPassword("admin");
-        return connectionFactory;
-    }
-    @Bean
-    public JmsInboundGateway hbInboundGateway() {
+    public JmsInboundGateway hbInboundGateway(ConnectionFactory amqConnection) {
         JmsInboundGateway gateway = new JmsInboundGateway(
-                serverToDeviceMessageListenerContainer(hbInboundConnection()),
+                serverToDeviceMessageListenerContainer(amqConnection),
                 serverToDeviceChannelPublishingMessageListener());
         gateway.setRequestChannel(hbRequestInChannel());
 
@@ -52,11 +41,13 @@ public class ActiveMQServerToDeviceInboundConfig {
 
     @Bean
     public SimpleMessageListenerContainer serverToDeviceMessageListenerContainer(
-            ConnectionFactory hbInboundConnection) {
+            ConnectionFactory amqConnection) {
         SimpleMessageListenerContainer container =
                 new SimpleMessageListenerContainer();
-        container.setConnectionFactory(hbInboundConnection);
-        container.setDestinationName(serverToDeviceQueue);
+        container.setConnectionFactory(amqConnection);
+        container.setDestination(new ActiveMQQueue(serverToDeviceQueue));
+//        container.setPubSubDomain(true);
+//        container.setDestinationName(serverToDeviceQueue);
         return container;
     }
 

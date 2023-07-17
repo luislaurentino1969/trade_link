@@ -1,6 +1,7 @@
 package com.sp.tradelink.config;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,9 +20,6 @@ public class ActiveMQDeviceToServerInboundConfig {
     @Value("${device.to.server.queue}")
     private String deviceToServerQueue;
 
-    @Value("${spring.activemq.broker-url}")
-    private String messagingServer;
-
     //region InboundGateway
     @Bean("upload-request-in-channel")
     public MessageChannel uploadRequestInChannel() {
@@ -31,17 +29,11 @@ public class ActiveMQDeviceToServerInboundConfig {
     public MessageChannel uploadResponseInChannel() {
         return new DirectChannel();
     }
+
     @Bean
-    public ConnectionFactory uploadInboundConnection() {
-        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(messagingServer);
-        connectionFactory.setUserName("admin");
-        connectionFactory.setPassword("admin");
-        return connectionFactory;
-    }
-    @Bean
-    public JmsInboundGateway uploadInboundGateway() {
+    public JmsInboundGateway uploadInboundGateway(ConnectionFactory amqConnection) {
         JmsInboundGateway gateway = new JmsInboundGateway(
-                deviceToServerMessageListenerContainer(uploadInboundConnection()),
+                deviceToServerMessageListenerContainer(amqConnection),
                 deviceToServerChannelPublishingMessageListener());
         gateway.setRequestChannel(uploadRequestInChannel());
 
@@ -50,11 +42,13 @@ public class ActiveMQDeviceToServerInboundConfig {
 
     @Bean
     public SimpleMessageListenerContainer deviceToServerMessageListenerContainer(
-            ConnectionFactory uploadInboundConnection) {
+            ConnectionFactory amqConnection) {
         SimpleMessageListenerContainer container =
                 new SimpleMessageListenerContainer();
-        container.setConnectionFactory(uploadInboundConnection);
-        container.setDestinationName(deviceToServerQueue);
+        container.setConnectionFactory(amqConnection);
+//        container.setPubSubDomain(true);
+//        container.setDestinationName(deviceToServerQueue);
+        container.setDestination(new ActiveMQQueue(deviceToServerQueue));
         return container;
     }
 

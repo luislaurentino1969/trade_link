@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Map;
 
-public class StringUtils {
+public class AppStringUtils {
 
     //convert map parameters into url parameters
     public static String convertMap2Str(Map<String, String> map) {

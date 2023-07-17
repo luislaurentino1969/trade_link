@@ -2,7 +2,8 @@ package com.sp.tradelink.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sp.tradelink.utils.StringUtils;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.sp.tradelink.utils.AppStringUtils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,12 +39,12 @@ public class QuantumHBResponse {
     @JsonProperty("CommandType")
     private String commandType;
     @JsonProperty("CommandRequest")
-    private String commandRequest;
+    private JsonNode commandRequest;
     @JsonProperty("ExtData")
-    private String extData;
+    private JsonNode extData;
 
     @Override
     public String toString() {
-        return StringUtils.convertObject2Json(this);
+        return AppStringUtils.convertObject2Json(this);
     }
 }

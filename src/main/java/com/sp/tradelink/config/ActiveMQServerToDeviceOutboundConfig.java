@@ -1,6 +1,5 @@
 package com.sp.tradelink.config;
 
-import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,14 +10,12 @@ import org.springframework.integration.jms.JmsOutboundGateway;
 import org.springframework.messaging.MessageChannel;
 
 import javax.jms.ConnectionFactory;
-import java.util.ArrayList;
-import java.util.List;
 
 @Configuration
 public class ActiveMQServerToDeviceOutboundConfig {
     @Value("${server.to.device.queue}")
     private String serverToDeviceQueue;
-    @Value("${reply.integration}")
+    @Value("${reply.queue}")
     private String replyQueue;
 
     @Value("${spring.activemq.broker-url}")
@@ -35,19 +32,10 @@ public class ActiveMQServerToDeviceOutboundConfig {
     }
 
     @Bean
-    public ConnectionFactory hbOutboundConnection() {
-        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(messagingServer);
-        connectionFactory.setUserName("admin");
-        connectionFactory.setPassword("admin");
-        connectionFactory.setTrustedPackages(new ArrayList<>(List.of("com.sp.tradelink.models")));
-        return connectionFactory;
-    }
-
-    @Bean
     @ServiceActivator(inputChannel = "hb-request-out-channel")
-    public JmsOutboundGateway hbOutboundGateway() {
+    public JmsOutboundGateway hbOutboundGateway(ConnectionFactory amqConnection) {
         JmsOutboundGateway gateway = new JmsOutboundGateway();
-        gateway.setConnectionFactory(hbOutboundConnection());
+        gateway.setConnectionFactory(amqConnection);
         gateway.setRequestDestinationName(serverToDeviceQueue);
         gateway.setReplyDestinationName(replyQueue);
         gateway.setReplyChannel( hbResponseOutChannel());
