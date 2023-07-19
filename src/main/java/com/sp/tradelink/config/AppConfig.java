@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.jms.ConnectionFactory;
-import javax.jms.QueueConnectionFactory;
 import java.util.ArrayList;
 import java.util.List;
 

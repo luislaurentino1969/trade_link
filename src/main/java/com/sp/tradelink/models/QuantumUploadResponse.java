@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class QuantumUploadResponse {
     @JsonProperty("ResultCode")
-    private int resultCode;
+    private String resultCode;
     @JsonProperty("ResultTxt")
     private String resultTxt;
     @JsonProperty("ResultMsg")

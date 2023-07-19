@@ -33,9 +33,9 @@
         </Logger>
         <Logger name="org.springframework" level="INFO">
         </Logger>
-        <Logger name="org.springframework.integration" level="DEBUG">
+        <Logger name="org.springframework.integration" level="INFO">
         </Logger>
-        <Logger name="org.springframework.integration.samples" level="DEBUG">
+        <Logger name="org.springframework.integration.samples" level="INFO">
         </Logger>
         <Logger name="org.jpos" level="DEBUG">
         </Logger>

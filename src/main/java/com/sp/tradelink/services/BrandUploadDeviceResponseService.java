@@ -6,6 +6,8 @@ import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.Executors;
+
 @Service
 public class BrandUploadDeviceResponseService {
     private final Logger logger;
@@ -18,8 +20,8 @@ public class BrandUploadDeviceResponseService {
     }
 
     @ServiceActivator(inputChannel = "upload-request-in-channel")
-    public Message<?> processHeartbeatRequest(Message<?> message) {
+    public void processUploadResponse(Message<?> message) {
         logger.info("Processing the quantum upload process.");
-        return cloudService.startUpload(message);
+        Executors.newSingleThreadExecutor().execute(() -> {var responseMsg = cloudService.startUpload(message);});
     }
 }

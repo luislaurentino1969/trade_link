@@ -6,6 +6,8 @@ import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.Executors;
+
 @Service
 public class BrandHeartbeatRequestService {
     private final Logger logger;
@@ -18,8 +20,8 @@ public class BrandHeartbeatRequestService {
     }
 
     @ServiceActivator(inputChannel = "hb-request-in-channel")
-    public Message<?> processHeartbeatRequest(Message<?> heartbeat) {
+    public void processHeartbeatRequest(Message<?> heartbeat) {
         logger.info("Processing the quantum heartbeat process.");
-        return cloudService.startHeartbeat(heartbeat);
+        Executors.newSingleThreadExecutor().execute(() -> {var responseMsg = cloudService.startHeartbeat(heartbeat);});
     }
 }

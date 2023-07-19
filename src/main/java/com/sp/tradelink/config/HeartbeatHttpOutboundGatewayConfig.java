@@ -1,22 +1,29 @@
 package com.sp.tradelink.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.integration.annotation.Poller;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.channel.DirectChannel;
+import org.springframework.integration.channel.QueueChannel;
+import org.springframework.integration.dsl.PollerSpec;
+import org.springframework.integration.dsl.Pollers;
 import org.springframework.integration.http.outbound.HttpRequestExecutingMessageHandler;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
+import org.springframework.messaging.PollableChannel;
 
 @Configuration
 public class HeartbeatHttpOutboundGatewayConfig {
     @Value("${app.server.to.device.url}")
-    private String SERVERTODEVICE;
+    private String serverToDevice;
 
     @Value("${app.device.to.server.url}")
-    private String DEVICETOSERVER;
+    private String deviceToServer;
 
     @Bean public MessageChannel serverToDeviceChannel() {
         return new DirectChannel();
@@ -24,14 +31,16 @@ public class HeartbeatHttpOutboundGatewayConfig {
     @Bean public MessageChannel serverToDeviceReplyChannel() {
         return new DirectChannel();
     }
+
     @Bean
     @ServiceActivator(inputChannel = "serverToDeviceChannel")
     public MessageHandler postServerToDeviceService() {
-        HttpRequestExecutingMessageHandler handler = new HttpRequestExecutingMessageHandler(SERVERTODEVICE);
+        HttpRequestExecutingMessageHandler handler = new HttpRequestExecutingMessageHandler(serverToDevice);
         handler.setHttpMethod(HttpMethod.POST);
         handler.setExpectReply(true);
         handler.setExpectedResponseType(Object.class);
-        handler.setOutputChannelName("serverToDeviceReplyChannel");
+        handler.setAsync(true);
+//        handler.setOutputChannelName("serverToDeviceReplyChannel");
         return handler;
     }
 
@@ -44,11 +53,11 @@ public class HeartbeatHttpOutboundGatewayConfig {
     @Bean
     @ServiceActivator(inputChannel = "deviceToServerChannel")
     public MessageHandler postDeviceToServerService() {
-        HttpRequestExecutingMessageHandler handler = new HttpRequestExecutingMessageHandler(DEVICETOSERVER);
+        HttpRequestExecutingMessageHandler handler = new HttpRequestExecutingMessageHandler(deviceToServer);
         handler.setHttpMethod(HttpMethod.POST);
         handler.setExpectReply(true);
         handler.setExpectedResponseType(Object.class);
-        handler.setOutputChannelName("deviceToServerReplyChannel");
+//        handler.setOutputChannelName("deviceToServerReplyChannel");
         return handler;
     }
 }

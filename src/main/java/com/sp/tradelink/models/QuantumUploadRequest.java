@@ -20,7 +20,7 @@ public class QuantumUploadRequest {
     @JsonProperty("PosID")
     private String posID;
     @JsonProperty("TimeOut")
-    private int timeout;
+    private String timeout;
     @JsonProperty("SerialNum")
     private String serialNum;
     @JsonProperty("IPaddress")

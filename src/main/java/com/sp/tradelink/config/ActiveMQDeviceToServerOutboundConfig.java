@@ -7,7 +7,10 @@ import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.channel.QueueChannel;
 import org.springframework.integration.jms.JmsOutboundGateway;
+import org.springframework.integration.jms.JmsSendingMessageHandler;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.MessageHandler;
 
 import javax.jms.ConnectionFactory;
 
@@ -30,17 +33,26 @@ public class ActiveMQDeviceToServerOutboundConfig {
     public MessageChannel uploadResponseOutChannel() {
         return new QueueChannel();
     }
+//
+//    @Bean
+//    @ServiceActivator(inputChannel = "upload-request-out-channel")
+//    public JmsOutboundGateway uploadOutboundGateway(ConnectionFactory amqConnection) {
+//        JmsOutboundGateway gateway = new JmsOutboundGateway();
+//        gateway.setConnectionFactory(amqConnection);
+//        gateway.setRequestDestinationName(deviceToServerQueue);
+//        gateway.setReplyDestinationName(replyQueue);
+//        gateway.setReplyChannel( uploadResponseOutChannel());
+//
+//        return gateway;
+//    }
 
     @Bean
     @ServiceActivator(inputChannel = "upload-request-out-channel")
-    public JmsOutboundGateway uploadOutboundGateway(ConnectionFactory amqConnection) {
-        JmsOutboundGateway gateway = new JmsOutboundGateway();
-        gateway.setConnectionFactory(amqConnection);
-        gateway.setRequestDestinationName(deviceToServerQueue);
-        gateway.setReplyDestinationName(replyQueue);
-        gateway.setReplyChannel( uploadResponseOutChannel());
-
-        return gateway;
+    public MessageHandler jmsMessageHandler(ConnectionFactory amqConnection, JmsTemplate jmsTemplate) {
+        jmsTemplate.setConnectionFactory(amqConnection);
+        JmsSendingMessageHandler handler = new JmsSendingMessageHandler(jmsTemplate);
+        handler.setDestinationName(replyQueue);
+        return handler;
     }
     //endregion
 }

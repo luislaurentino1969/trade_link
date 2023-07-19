@@ -8,6 +8,7 @@ import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.jms.ChannelPublishingJmsMessageListener;
 import org.springframework.integration.jms.JmsInboundGateway;
+import org.springframework.integration.jms.JmsMessageDrivenEndpoint;
 import org.springframework.jms.listener.SimpleMessageListenerContainer;
 import org.springframework.messaging.MessageChannel;
 
@@ -24,30 +25,37 @@ public class ActiveMQServerToDeviceInboundConfig {
     public MessageChannel hbRequestInChannel() {
         return new DirectChannel();
     }
-    @Bean("hb-response-in-channel")
-    public MessageChannel hbResponseInChannel() {
-        return new DirectChannel();
-    }
+//    @Bean("hb-response-in-channel")
+//    public MessageChannel hbResponseInChannel() {
+//        return new DirectChannel();
+//    }
+
+//    @Bean
+//    public JmsInboundGateway hbInboundGateway(ConnectionFactory amqConnection) {
+//        JmsInboundGateway gateway = new JmsInboundGateway(
+//                serverToDeviceMessageListenerContainer(amqConnection),
+//                serverToDeviceChannelPublishingMessageListener());
+//        gateway.setRequestChannel(hbRequestInChannel());
+//
+//        return gateway;
+//    }
 
     @Bean
-    public JmsInboundGateway hbInboundGateway(ConnectionFactory amqConnection) {
-        JmsInboundGateway gateway = new JmsInboundGateway(
-                serverToDeviceMessageListenerContainer(amqConnection),
+    public JmsMessageDrivenEndpoint jmsMessageDrivenEndpoint(
+            SimpleMessageListenerContainer serverToDeviceMessageListenerContainer) {
+        JmsMessageDrivenEndpoint endpoint = new JmsMessageDrivenEndpoint(
+                serverToDeviceMessageListenerContainer,
                 serverToDeviceChannelPublishingMessageListener());
-        gateway.setRequestChannel(hbRequestInChannel());
-
-        return gateway;
+        endpoint.setOutputChannel(hbRequestInChannel());
+        return endpoint;
     }
 
     @Bean
-    public SimpleMessageListenerContainer serverToDeviceMessageListenerContainer(
-            ConnectionFactory amqConnection) {
-        SimpleMessageListenerContainer container =
-                new SimpleMessageListenerContainer();
+    public SimpleMessageListenerContainer serverToDeviceMessageListenerContainer(ConnectionFactory amqConnection) {
+        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(amqConnection);
         container.setDestination(new ActiveMQQueue(serverToDeviceQueue));
-//        container.setPubSubDomain(true);
-//        container.setDestinationName(serverToDeviceQueue);
+        container.setMessageSelector("Target = 'ServerToDevice'");
         return container;
     }
 
@@ -55,8 +63,7 @@ public class ActiveMQServerToDeviceInboundConfig {
     public ChannelPublishingJmsMessageListener serverToDeviceChannelPublishingMessageListener() {
         ChannelPublishingJmsMessageListener channelPublishingJmsMessageListener =
                 new ChannelPublishingJmsMessageListener();
-        channelPublishingJmsMessageListener.setExpectReply(true);
-
+        channelPublishingJmsMessageListener.setExpectReply(false);
         return channelPublishingJmsMessageListener;
     }
     //endregion

@@ -6,14 +6,20 @@ import com.sp.tradelink.gateways.HttpServerToDeviceGateway;
 import com.sp.tradelink.models.QuantumHBResponse;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageChannel;
 import org.springframework.stereotype.Service;
 
 @Service
 public class QuantumHeartbeatRequestService {
     public final Logger logger;
+
+    @Qualifier("hb-response-out-channel")
+    @Autowired
+    private MessageChannel sendDataToBrandLink;
 
     @Autowired
     private HttpServerToDeviceGateway httpServerToDeviceGateway;
@@ -37,7 +43,7 @@ public class QuantumHeartbeatRequestService {
             response = objectMapper.convertValue(objectMapper.convertValue(hbResponse, JsonNode.class)
                     .get("d"),QuantumHBResponse.class);
         } catch (Exception ex) {
-            response.setResultCode(-1);
+            response.setResultCode("-1");
             response.setResultMsg("Error converting response format.");
         }
         logger.debug("Will return heartbeat response to device.\n{}",response.toString());
@@ -57,6 +63,10 @@ public class QuantumHeartbeatRequestService {
         }
         if (request.getHeaders().containsKey("TRACE_NUM")) {
             responseMessage.setHeader("TRACE_NUM", request.getHeaders().get("TRACE_NUM"));
+        }
+
+        if (request.getHeaders().containsKey("Source")) {
+            sendDataToBrandLink.send(responseMessage.build());
         }
         return responseMessage.build();
     }

@@ -3,6 +3,7 @@ package com.sp.tradelink.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+
 import com.sp.tradelink.utils.AppStringUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +14,7 @@ import lombok.Setter;
 public class QuantumHBResponse {
 
     @JsonProperty("ResultCode")
-    private int resultCode;
+    private String resultCode;
     @JsonProperty("ResultTxt")
     private String resultTxt;
     @JsonProperty("ResultMsg")

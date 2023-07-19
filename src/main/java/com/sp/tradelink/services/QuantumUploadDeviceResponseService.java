@@ -6,9 +6,11 @@ import com.sp.tradelink.gateways.HttpDeviceToServerGateway;
 import com.sp.tradelink.models.QuantumUploadResponse;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageChannel;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +20,9 @@ public class QuantumUploadDeviceResponseService {
     @Autowired
     private HttpDeviceToServerGateway httpDeviceToServerGateway;
 
+    @Qualifier("hb-response-out-channel")
+    @Autowired
+    private MessageChannel sendDataToBrandLink;
     public QuantumUploadDeviceResponseService(Logger logger) {
         this.logger = logger;
     }
@@ -37,7 +42,7 @@ public class QuantumUploadDeviceResponseService {
             response = objectMapper.convertValue(objectMapper.convertValue(hbResponse, JsonNode.class)
                     .get("d"),QuantumUploadResponse.class);
         } catch (Exception ex) {
-            response.setResultCode(-1);
+            response.setResultCode("-1");
             response.setResultMsg("Error converting response format.");
         }
 
@@ -58,6 +63,10 @@ public class QuantumUploadDeviceResponseService {
         }
         if (request.getHeaders().containsKey("TRACE_NUM")) {
             uploadResponse.setHeader("TRACE_NUM", request.getHeaders().get("TRACE_NUM"));
+        }
+
+        if (request.getHeaders().containsKey("Source")) {
+            sendDataToBrandLink.send(uploadResponse.build());
         }
         return uploadResponse.build();
     }
