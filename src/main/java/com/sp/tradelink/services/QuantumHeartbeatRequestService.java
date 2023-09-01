@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sp.tradelink.gateways.HttpServerToDeviceGateway;
 import com.sp.tradelink.models.QuantumHBResponse;
+import com.sp.tradelink.utils.MsgHeaderConstants;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -49,20 +50,23 @@ public class QuantumHeartbeatRequestService {
         logger.debug("Will return heartbeat response to device.\n{}",response.toString());
 
         MessageBuilder<?> responseMessage = MessageBuilder.withPayload(response.toString());
-        if (request.getHeaders().containsKey("Brand")) {
-            responseMessage.setHeader("Brand", request.getHeaders().get("Brand"));
+        if (request.getHeaders().containsKey("ip_connectionId")) {
+            responseMessage.setHeader("ip_connectionId", request.getHeaders().get("ip_connectionId"));
         }
-        if (request.getHeaders().containsKey("Target")) {
-            responseMessage.setHeader("Target", request.getHeaders().get("Target"));
+        if (request.getHeaders().containsKey(MsgHeaderConstants.BRAND_HEADER)) {
+            responseMessage.setHeader(MsgHeaderConstants.BRAND_HEADER, request.getHeaders().get(MsgHeaderConstants.BRAND_HEADER));
         }
-        if (request.getHeaders().containsKey("Source")) {
-            responseMessage.setHeader("Source", request.getHeaders().get("Source"));
+        if (request.getHeaders().containsKey(MsgHeaderConstants.TARGET_HEADER)) {
+            responseMessage.setHeader(MsgHeaderConstants.TARGET_HEADER, request.getHeaders().get(MsgHeaderConstants.TARGET_HEADER));
         }
-        if (request.getHeaders().containsKey("COMMAND_TYPE")) {
-            responseMessage.setHeader("COMMAND_TYPE", request.getHeaders().get("COMMAND_TYPE"));
+        if (request.getHeaders().containsKey(MsgHeaderConstants.SOURCE_HEADER)) {
+            responseMessage.setHeader(MsgHeaderConstants.SOURCE_HEADER, request.getHeaders().get(MsgHeaderConstants.SOURCE_HEADER));
         }
-        if (request.getHeaders().containsKey("TRACE_NUM")) {
-            responseMessage.setHeader("TRACE_NUM", request.getHeaders().get("TRACE_NUM"));
+        if (request.getHeaders().containsKey(MsgHeaderConstants.REQUEST_TYPE)) {
+            responseMessage.setHeader(MsgHeaderConstants.REQUEST_TYPE, request.getHeaders().get(MsgHeaderConstants.REQUEST_TYPE));
+        }
+        if (request.getHeaders().containsKey(MsgHeaderConstants.TRACE_NUM)) {
+            responseMessage.setHeader(MsgHeaderConstants.TRACE_NUM, request.getHeaders().get(MsgHeaderConstants.TRACE_NUM));
         }
 
         if (request.getHeaders().containsKey("Source")) {

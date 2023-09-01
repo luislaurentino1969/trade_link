@@ -25,19 +25,19 @@
         </RollingFile>
     </Appenders>
     <Loggers>
-        <Root level="DEBUG">
+        <Root level="INFO">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="LogToFile"/>
         </Root>
-        <Logger name="com.sp.tradelink" level="DEBUG">
+        <Logger name="com.sp.tradelink" level="INFO">
         </Logger>
         <Logger name="org.springframework" level="INFO">
         </Logger>
-        <Logger name="org.springframework.integration" level="DEBUG">
+        <Logger name="org.springframework.integration" level="INFO">
         </Logger>
         <Logger name="org.springframework.integration.samples" level="INFO">
         </Logger>
-        <Logger name="org.jpos" level="DEBUG">
+        <Logger name="org.jpos" level="INFO">
         </Logger>
     </Loggers>
 </Configuration>

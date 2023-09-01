@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.jms.JmsSendingMessageHandler;
+import org.springframework.jms.connection.CachingConnectionFactory;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
@@ -43,8 +44,8 @@ public class ActiveMQServerToDeviceOutboundConfig {
 //    }
     @Bean
     @ServiceActivator(inputChannel = "hb-response-out-channel")
-    public MessageHandler jmsMessageHandler(ConnectionFactory amqConnection, JmsTemplate jmsTemplate) {
-        jmsTemplate.setConnectionFactory(amqConnection);
+    public MessageHandler jmsMessageHandler(JmsTemplate jmsTemplate) {
+//        jmsTemplate.setConnectionFactory(amqConnection);
         JmsSendingMessageHandler handler = new JmsSendingMessageHandler(jmsTemplate);
         handler.setDestinationName(replyQueue);
         return handler;

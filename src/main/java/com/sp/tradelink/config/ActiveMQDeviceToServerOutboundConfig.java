@@ -8,6 +8,7 @@ import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.channel.QueueChannel;
 import org.springframework.integration.jms.JmsOutboundGateway;
 import org.springframework.integration.jms.JmsSendingMessageHandler;
+import org.springframework.jms.connection.CachingConnectionFactory;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
@@ -48,8 +49,8 @@ public class ActiveMQDeviceToServerOutboundConfig {
 
     @Bean
     @ServiceActivator(inputChannel = "upload-request-out-channel")
-    public MessageHandler jmsMessageHandler(ConnectionFactory amqConnection, JmsTemplate jmsTemplate) {
-        jmsTemplate.setConnectionFactory(amqConnection);
+    public MessageHandler jmsMessageHandler(JmsTemplate jmsTemplate) {
+//        jmsTemplate.setConnectionFactory(amqConnection);
         JmsSendingMessageHandler handler = new JmsSendingMessageHandler(jmsTemplate);
         handler.setDestinationName(replyQueue);
         return handler;

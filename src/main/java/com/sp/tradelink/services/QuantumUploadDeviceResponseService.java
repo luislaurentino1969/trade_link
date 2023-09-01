@@ -49,6 +49,9 @@ public class QuantumUploadDeviceResponseService {
         logger.debug("Will return upload response to device.\n{}",response.toString());
 
         MessageBuilder<?> uploadResponse = MessageBuilder.withPayload(response.toString());
+        if (request.getHeaders().containsKey("ip_connectionId")) {
+            uploadResponse.setHeader("ip_connectionId", request.getHeaders().get("ip_connectionId"));
+        }
         if (request.getHeaders().containsKey("Brand")) {
             uploadResponse.setHeader("Brand", request.getHeaders().get("Brand"));
         }
