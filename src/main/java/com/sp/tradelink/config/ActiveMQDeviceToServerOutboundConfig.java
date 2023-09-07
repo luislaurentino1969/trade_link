@@ -32,7 +32,7 @@ public class ActiveMQDeviceToServerOutboundConfig {
     }
     @Bean("upload-response-out-channel")
     public MessageChannel uploadResponseOutChannel() {
-        return new QueueChannel();
+        return new DirectChannel();
     }
 //
 //    @Bean
@@ -48,7 +48,7 @@ public class ActiveMQDeviceToServerOutboundConfig {
 //    }
 
     @Bean
-    @ServiceActivator(inputChannel = "upload-request-out-channel")
+    @ServiceActivator(inputChannel = "upload-response-out-channel")
     public MessageHandler jmsMessageHandler(JmsTemplate jmsTemplate) {
 //        jmsTemplate.setConnectionFactory(amqConnection);
         JmsSendingMessageHandler handler = new JmsSendingMessageHandler(jmsTemplate);

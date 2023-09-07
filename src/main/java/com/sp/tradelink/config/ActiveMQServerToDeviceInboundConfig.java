@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.jms.ChannelPublishingJmsMessageListener;
-import org.springframework.integration.jms.JmsInboundGateway;
 import org.springframework.integration.jms.JmsMessageDrivenEndpoint;
 import org.springframework.jms.listener.SimpleMessageListenerContainer;
 import org.springframework.messaging.MessageChannel;
@@ -41,7 +40,7 @@ public class ActiveMQServerToDeviceInboundConfig {
 //    }
 
     @Bean
-    public JmsMessageDrivenEndpoint jmsMessageDrivenEndpoint(
+    public JmsMessageDrivenEndpoint jmsMessageServerToDeviceDrivenEndpoint(
             SimpleMessageListenerContainer serverToDeviceMessageListenerContainer) {
         JmsMessageDrivenEndpoint endpoint = new JmsMessageDrivenEndpoint(
                 serverToDeviceMessageListenerContainer,

@@ -39,10 +39,10 @@ public class ActiveMQDeviceToServerInboundConfig {
 //        return gateway;
 //    }
     @Bean
-    public JmsMessageDrivenEndpoint jmsMessageDrivenEndpoint(
-            SimpleMessageListenerContainer serverToDeviceMessageListenerContainer) {
+    public JmsMessageDrivenEndpoint jmsMessageDeviceToServerDrivenEndpoint(
+            SimpleMessageListenerContainer deviceToServerMessageListenerContainer) {
         JmsMessageDrivenEndpoint endpoint = new JmsMessageDrivenEndpoint(
-                serverToDeviceMessageListenerContainer,
+                deviceToServerMessageListenerContainer,
                 deviceToServerChannelPublishingMessageListener());
         endpoint.setOutputChannel(uploadRequestInChannel());
         return endpoint;
@@ -53,7 +53,7 @@ public class ActiveMQDeviceToServerInboundConfig {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(amqConnection);
         container.setDestination(new ActiveMQQueue(deviceToServerQueue));
-        container.setMessageSelector("Target = 'ServerToDevice'");
+        container.setMessageSelector("Target = 'DeviceToServer'");
         return container;
     }
 

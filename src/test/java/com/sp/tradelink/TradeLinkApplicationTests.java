@@ -5,23 +5,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sp.tradelink.main.TradeLinkApplication;
 import com.sp.tradelink.models.QuantumHBRequest;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.integration.channel.QueueChannel;
 import org.springframework.integration.support.MessageBuilder;
-import org.springframework.jms.support.JmsHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.support.GenericMessage;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Collections;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -62,7 +54,7 @@ class TradeLinkApplicationTests {
     private ApplicationContext applicationContext;
 
     @Test
-    public void testIntegrationGateway() throws JsonProcessingException {
+    public void testServerToDevice() throws JsonProcessingException {
         MessageChannel outboundOrderRequestChannel =
                 applicationContext.getBean("hb-request-out-channel",
                         MessageChannel.class);
@@ -80,4 +72,25 @@ class TradeLinkApplicationTests {
                 .isNotNull();
         ;
     }
+
+    @Test
+    public void testDeviceToServer() throws JsonProcessingException {
+        MessageChannel outboundOrderRequestChannel =
+                applicationContext.getBean("hb-request-out-channel",
+                        MessageChannel.class);
+        QueueChannel outboundOrderResponseChannel = applicationContext
+                .getBean("hb-response-out-channel", QueueChannel.class);
+        ObjectMapper mapper = new ObjectMapper();
+        QuantumHBRequest hbRequest = mapper.readValue("{\"UserName\":\"A1906003008935\",\"Password\":\"A1906003008935\",\"Token\":\"A1906003008935\",\"TerminalID\":\"A1906003008935\",\"PosID\":\"LuisMultDev\",\"Timeout\":90,\"SerialNum\":\"A1906003008935\"}",
+                QuantumHBRequest.class);
+
+        outboundOrderRequestChannel
+                .send(MessageBuilder.withPayload(hbRequest.toString()).build());
+        Message<?> response = outboundOrderResponseChannel.receive(90000);
+
+        assertThat(response.getPayload())
+                .isNotNull();
+        ;
+    }
+
 }

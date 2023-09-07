@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sp.tradelink.gateways.HttpDeviceToServerGateway;
 import com.sp.tradelink.models.QuantumUploadResponse;
+import com.sp.tradelink.utils.MsgHeaderConstants;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -52,23 +53,23 @@ public class QuantumUploadDeviceResponseService {
         if (request.getHeaders().containsKey("ip_connectionId")) {
             uploadResponse.setHeader("ip_connectionId", request.getHeaders().get("ip_connectionId"));
         }
-        if (request.getHeaders().containsKey("Brand")) {
-            uploadResponse.setHeader("Brand", request.getHeaders().get("Brand"));
+        if (request.getHeaders().containsKey(MsgHeaderConstants.BRAND_HEADER)) {
+            uploadResponse.setHeader(MsgHeaderConstants.BRAND_HEADER, request.getHeaders().get(MsgHeaderConstants.BRAND_HEADER));
         }
-        if (request.getHeaders().containsKey("Target")) {
-            uploadResponse.setHeader("Target", request.getHeaders().get("Target"));
+        if (request.getHeaders().containsKey(MsgHeaderConstants.TARGET_HEADER)) {
+            uploadResponse.setHeader(MsgHeaderConstants.TARGET_HEADER, request.getHeaders().get(MsgHeaderConstants.TARGET_HEADER));
         }
-        if (request.getHeaders().containsKey("Source")) {
-            uploadResponse.setHeader("Source", request.getHeaders().get("Source"));
+        if (request.getHeaders().containsKey(MsgHeaderConstants.SOURCE_HEADER)) {
+            uploadResponse.setHeader(MsgHeaderConstants.SOURCE_HEADER, request.getHeaders().get(MsgHeaderConstants.SOURCE_HEADER));
         }
-        if (request.getHeaders().containsKey("COMMAND_TYPE")) {
-            uploadResponse.setHeader("COMMAND_TYPE", request.getHeaders().get("COMMAND_TYPE"));
+        if (request.getHeaders().containsKey(MsgHeaderConstants.REQUEST_TYPE)) {
+            uploadResponse.setHeader(MsgHeaderConstants.REQUEST_TYPE, request.getHeaders().get(MsgHeaderConstants.REQUEST_TYPE));
         }
-        if (request.getHeaders().containsKey("TRACE_NUM")) {
-            uploadResponse.setHeader("TRACE_NUM", request.getHeaders().get("TRACE_NUM"));
+        if (request.getHeaders().containsKey(MsgHeaderConstants.TRACE_NUM)) {
+            uploadResponse.setHeader(MsgHeaderConstants.TRACE_NUM, request.getHeaders().get(MsgHeaderConstants.TRACE_NUM));
         }
 
-        if (request.getHeaders().containsKey("Source")) {
+        if (request.getHeaders().containsKey(MsgHeaderConstants.SOURCE_HEADER)) {
             sendDataToBrandLink.send(uploadResponse.build());
         }
         return uploadResponse.build();
