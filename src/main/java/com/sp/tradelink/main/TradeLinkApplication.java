@@ -11,7 +11,8 @@ import org.springframework.integration.annotation.IntegrationComponentScan;
 public class TradeLinkApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(TradeLinkApplication.class, args);
+        SpringApplication application = new SpringApplication(TradeLinkApplication.class);
+        application.run(args);
     }
 
 }

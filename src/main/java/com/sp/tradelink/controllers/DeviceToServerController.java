@@ -25,11 +25,11 @@ import java.util.Map;
 public class DeviceToServerController {
     private final Logger logger;
 
-    @Autowired
-    QuantumUploadDeviceResponseService service;
+    private final QuantumUploadDeviceResponseService service;
 
-    public DeviceToServerController(Logger logger) {
+    public DeviceToServerController(Logger logger, QuantumUploadDeviceResponseService service) {
         this.logger = logger;
+        this.service = service;
     }
 
     @Operation(summary = "Quantum DeviceToServer service")
@@ -45,6 +45,15 @@ public class DeviceToServerController {
                             mediaType = "application/json") })})
     @RequestMapping(value = "/quantum", method = RequestMethod.POST, produces = {"application/json"})
     public ResponseEntity<?> initiateMainLinkHeartbeat(@RequestBody QuantumUploadRequest info, @RequestHeader Map<String, String> headers) {
-        return new ResponseEntity<>(service.startUpload(MessageBuilder.withPayload(info).build()).getPayload(), HttpStatus.OK);
+        logger.debug("Headers: {}", headers.values());
+        logger.debug("Information: {}", info.toString());
+        try {
+            return new ResponseEntity<>(service.startUpload(MessageBuilder.withPayload(info).build()).getPayload(), HttpStatus.OK);
+        } catch (Exception ex) {
+            logger.error("Error processing DeviceToServer request.", ex);
+            return new ResponseEntity<>(new DefaultErrorResponse().setResultCode("-00500")
+                    .setResultMsg("Error processing request to cloud.")
+                    .setResultTxt(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

@@ -3,8 +3,8 @@ package com.sp.tradelink.controllers;
 import com.sp.tradelink.models.DefaultErrorResponse;
 import com.sp.tradelink.models.QuantumHBRequest;
 import com.sp.tradelink.models.QuantumHBResponse;
-import com.sp.tradelink.models.QuantumUploadResponse;
 import com.sp.tradelink.services.QuantumHeartbeatRequestService;
+import com.sp.tradelink.utils.MsgHeaderConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -46,6 +46,20 @@ public class ServerToDeviceController {
                             mediaType = "application/json") })})
     @RequestMapping(value="/quantum", method= RequestMethod.POST, produces={"application/json"})
     public ResponseEntity<?> initiateMainLinkHeartbeat(@RequestBody QuantumHBRequest info, @RequestHeader Map<String, String> headers) {
-        return new ResponseEntity<>(service.startHeartbeat(MessageBuilder.withPayload(info).build()).getPayload(), HttpStatus.OK);
+        logger.debug("Headers: {}", headers.values());
+        logger.debug("Information: {}", info.toString());
+        try {
+            service.managePreviousHB(info.getSerialNum(), "stop",
+                    headers.get(("X-" + MsgHeaderConstants.BRAND_HEADER).toLowerCase()));
+            return new ResponseEntity<>(service.startHeartbeat(MessageBuilder.withPayload(info)
+                    .setHeader(MsgHeaderConstants.SOURCE_HEADER, "myself")
+                    .setHeader(MsgHeaderConstants.BRAND_HEADER, headers.get(("X-" + MsgHeaderConstants.BRAND_HEADER).toLowerCase()))
+                    .build()).getPayload(), HttpStatus.OK);
+        } catch (Exception ex) {
+            logger.error("Error processing ServerToDevice request.", ex);
+            return new ResponseEntity<>(new DefaultErrorResponse().setResultCode("-00500")
+                    .setResultMsg("Error processing request to cloud.")
+                    .setResultTxt(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

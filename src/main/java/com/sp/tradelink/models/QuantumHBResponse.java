@@ -11,28 +11,8 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @Setter
-public class QuantumHBResponse {
+public class QuantumHBResponse extends QuantumDefaultResponse {
 
-    @JsonProperty("ResultCode")
-    private String resultCode;
-    @JsonProperty("ResultTxt")
-    private String resultTxt;
-    @JsonProperty("ResultMsg")
-    private String resultMsg;
-    @JsonProperty("IPaddress")
-    private String ipAddress;
-    @JsonProperty("PosID")
-    private String posID;
-    @JsonProperty("Port")
-    private String port;
-    @JsonProperty("MacAddress")
-    private String macAddress;
-    @JsonProperty("TerminalID")
-    private String terminalID;
-    @JsonProperty("Token")
-    private String token;
-    @JsonProperty("SerialNum")
-    private String serialNum;
     @JsonProperty("Amount")
     private String amount;
     @JsonProperty("TraceNum")

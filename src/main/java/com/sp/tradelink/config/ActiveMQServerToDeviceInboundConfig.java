@@ -24,20 +24,6 @@ public class ActiveMQServerToDeviceInboundConfig {
     public MessageChannel hbRequestInChannel() {
         return new DirectChannel();
     }
-//    @Bean("hb-response-in-channel")
-//    public MessageChannel hbResponseInChannel() {
-//        return new DirectChannel();
-//    }
-
-//    @Bean
-//    public JmsInboundGateway hbInboundGateway(ConnectionFactory amqConnection) {
-//        JmsInboundGateway gateway = new JmsInboundGateway(
-//                serverToDeviceMessageListenerContainer(amqConnection),
-//                serverToDeviceChannelPublishingMessageListener());
-//        gateway.setRequestChannel(hbRequestInChannel());
-//
-//        return gateway;
-//    }
 
     @Bean
     public JmsMessageDrivenEndpoint jmsMessageServerToDeviceDrivenEndpoint(

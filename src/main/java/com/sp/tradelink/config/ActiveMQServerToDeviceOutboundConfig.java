@@ -31,21 +31,9 @@ public class ActiveMQServerToDeviceOutboundConfig {
         return new DirectChannel();
     }
 
-    //    @Bean
-//    @ServiceActivator(inputChannel = "hb-request-out-channel")
-//    public JmsOutboundGateway hbOutboundGateway(ConnectionFactory amqConnection) {
-//        JmsOutboundGateway gateway = new JmsOutboundGateway();
-//        gateway.setConnectionFactory(amqConnection);
-//        gateway.setRequestDestinationName(serverToDeviceQueue);
-//        gateway.setReplyDestinationName(replyQueue);
-//        gateway.setReplyChannel( hbResponseOutChannel());
-//
-//        return gateway;
-//    }
     @Bean
     @ServiceActivator(inputChannel = "hb-response-out-channel")
     public MessageHandler jmsMessageHandler(JmsTemplate jmsTemplate) {
-//        jmsTemplate.setConnectionFactory(amqConnection);
         JmsSendingMessageHandler handler = new JmsSendingMessageHandler(jmsTemplate);
         handler.setDestinationName(replyQueue);
         return handler;

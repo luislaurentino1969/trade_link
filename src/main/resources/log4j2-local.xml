@@ -31,6 +31,8 @@
         </Root>
         <Logger name="com.sp.tradelink" level="DEBUG">
         </Logger>
+        <Logger name="com.sp.tradelink.services" level="DEBUG">
+        </Logger>
         <Logger name="org.springframework" level="INFO">
         </Logger>
         <Logger name="org.springframework.integration" level="INFO">

@@ -8,27 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class QuantumUploadResponse {
-    @JsonProperty("ResultCode")
-    private String resultCode;
-    @JsonProperty("ResultTxt")
-    private String resultTxt;
-    @JsonProperty("ResultMsg")
-    private String resultMsg;
-    @JsonProperty("IPaddress")
-    private String ipAddress;
-    @JsonProperty("PosID")
-    private String posID;
-    @JsonProperty("Port")
-    private String port;
-    @JsonProperty("MacAddress")
-    private String macAddress;
-    @JsonProperty("TerminalID")
-    private String terminalID;
-    @JsonProperty("Token")
-    private String token;
-    @JsonProperty("SerialNum")
-    private String serialNum;
+public class QuantumUploadResponse extends QuantumDefaultResponse {
     @JsonProperty("Amount")
     private String amount;
     @JsonProperty("TraceNum")

@@ -24,20 +24,7 @@ public class ActiveMQDeviceToServerInboundConfig {
     public MessageChannel uploadRequestInChannel() {
         return new DirectChannel();
     }
-//    @Bean("upload-response-in-channel")
-//    public MessageChannel uploadResponseInChannel() {
-//        return new DirectChannel();
-//    }
 
-    //    @Bean
-//    public JmsInboundGateway uploadInboundGateway(ConnectionFactory amqConnection) {
-//        JmsInboundGateway gateway = new JmsInboundGateway(
-//                deviceToServerMessageListenerContainer(amqConnection),
-//                deviceToServerChannelPublishingMessageListener());
-//        gateway.setRequestChannel(uploadRequestInChannel());
-//
-//        return gateway;
-//    }
     @Bean
     public JmsMessageDrivenEndpoint jmsMessageDeviceToServerDrivenEndpoint(
             SimpleMessageListenerContainer deviceToServerMessageListenerContainer) {

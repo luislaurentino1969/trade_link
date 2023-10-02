@@ -7,38 +7,19 @@ import com.sp.tradelink.utils.AppStringUtils;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @Setter
-public class QuantumHBRequest implements Serializable {
-    @JsonProperty("UserName")
-    private String userName;
-    @JsonProperty("Password")
-    private String password;
-    @JsonProperty("Token")
-    private String token;
-    @JsonProperty("TerminalID")
-    private String terminalID;
-    @JsonProperty("PosID")
-    private String posID;
-    @JsonProperty("TimeOut")
-    private String timeout;
-    @JsonProperty("SerialNum")
-    private String serialNum;
-    @JsonProperty("IPaddress")
-    private String ipAddress;
-    @JsonProperty("MacAddress")
-    private String macAddress;
-    @JsonProperty("Port")
-    private String port;
-    @JsonProperty("TraceNum")
-    private String traceNum;
+public class QuantumHBRequest extends QuantumDefaultRequest implements Serializable {
     @JsonProperty("ExtData")
     private String extData;
 
     public QuantumHBRequest() {
+        super();
     }
 
     @Override

@@ -33,7 +33,6 @@ public class HeartbeatHttpOutboundGatewayConfig {
         handler.setExpectReply(true);
         handler.setExpectedResponseType(Object.class);
         handler.setAsync(true);
-//        handler.setOutputChannelName("serverToDeviceReplyChannel");
         return handler;
     }
 
@@ -50,7 +49,6 @@ public class HeartbeatHttpOutboundGatewayConfig {
         handler.setHttpMethod(HttpMethod.POST);
         handler.setExpectReply(true);
         handler.setExpectedResponseType(Object.class);
-//        handler.setOutputChannelName("deviceToServerReplyChannel");
         return handler;
     }
 }
