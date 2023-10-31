@@ -51,8 +51,9 @@ public class QuantumHeartbeatRequestService {
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            response = objectMapper.convertValue(objectMapper.convertValue(hbResponse, JsonNode.class)
-                    .get("d"), QuantumHBResponse.class);
+//            response = objectMapper.convertValue(objectMapper.convertValue(hbResponse, JsonNode.class)
+//                    .get("d"), QuantumHBResponse.class);
+            response = objectMapper.convertValue(objectMapper.convertValue(hbResponse, JsonNode.class), QuantumHBResponse.class);
         } catch (Exception ex) {
             response.setResultCode("-1");
             response.setResultMsg("Error converting response format.");

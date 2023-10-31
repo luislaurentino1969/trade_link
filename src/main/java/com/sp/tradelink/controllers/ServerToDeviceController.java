@@ -7,6 +7,7 @@ import com.sp.tradelink.services.QuantumHeartbeatRequestService;
 import com.sp.tradelink.utils.MsgHeaderConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -37,7 +38,7 @@ public class ServerToDeviceController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success",
                     content = { @Content(schema = @Schema(implementation = QuantumHBResponse.class),
-                            mediaType = "application/json") }),
+                            mediaType = "application/json", examples = @ExampleObject()) }),
             @ApiResponse(responseCode = "400", description = "Bad request",
                     content = { @Content(schema = @Schema(implementation = DefaultErrorResponse.class),
                             mediaType = "application/json") }),

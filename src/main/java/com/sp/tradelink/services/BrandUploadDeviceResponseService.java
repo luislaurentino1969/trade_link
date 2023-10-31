@@ -14,6 +14,8 @@ public class BrandUploadDeviceResponseService {
 
     @Autowired
     private QuantumUploadDeviceResponseService cloudService;
+    @Autowired
+    private QuantumUploadRawMessageService uploadRawMessageService;
 
     public BrandUploadDeviceResponseService(Logger logger) {
         this.logger = logger;
@@ -22,6 +24,9 @@ public class BrandUploadDeviceResponseService {
     @ServiceActivator(inputChannel = "upload-request-in-channel")
     public void processUploadResponse(Message<?> message) {
         logger.info("Processing the quantum upload process.");
-        Executors.newSingleThreadExecutor().execute(() -> {var responseMsg = cloudService.startUpload(message);});
+        Executors.newSingleThreadExecutor().execute(() -> {
+            var responseRawUpload = uploadRawMessageService.startUpload(message);
+            var responseMsg = cloudService.startUpload(message);
+        });
     }
 }

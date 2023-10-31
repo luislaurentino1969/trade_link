@@ -18,6 +18,9 @@ public class HeartbeatHttpOutboundGatewayConfig {
     @Value("${app.device.to.server.url}")
     private String deviceToServer;
 
+    @Value("${app.upload.raw.message.url}")
+    private String uploadBrandRawMessage;
+
     @Bean public MessageChannel serverToDeviceChannel() {
         return new DirectChannel();
     }
@@ -49,6 +52,22 @@ public class HeartbeatHttpOutboundGatewayConfig {
         handler.setHttpMethod(HttpMethod.POST);
         handler.setExpectReply(true);
         handler.setExpectedResponseType(Object.class);
+        return handler;
+    }
+    @Bean public MessageChannel uploadRawMessageChannel() {
+        return new DirectChannel();
+    }
+    @Bean public MessageChannel uploadRawMessageReplyChannel() {
+        return new DirectChannel();
+    }
+    @Bean
+    @ServiceActivator(inputChannel = "uploadRawMessageChannel")
+    public MessageHandler postBrandRawMessageService() {
+        HttpRequestExecutingMessageHandler handler = new HttpRequestExecutingMessageHandler(uploadBrandRawMessage);
+        handler.setHttpMethod(HttpMethod.POST);
+        handler.setExpectReply(true);
+        handler.setExpectedResponseType(Object.class);
+        handler.setAsync(true);
         return handler;
     }
 }

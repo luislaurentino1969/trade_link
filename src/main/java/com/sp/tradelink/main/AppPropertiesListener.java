@@ -57,30 +57,36 @@ public class AppPropertiesListener extends PropertySourcesPlaceholderConfigurer 
         String dbServer = "108.215.108.45";
         String quantumInstance = "qa";
         String dbName = quantumInstance;
+        String quantumCloudURL = "";
 
-        if (profiles.contains("local")) {
+        if (profiles.contains("local") || profiles.contains("dev")) {
             customPropertyMap.put("server.port", "8081");
             dbName = "dev";
+            quantumInstance = "devweblink";
+            quantumCloudURL = "https://" + quantumInstance + ".spweblink.com/Service/SPTerminal/";
         } else if (profiles.contains("qa")) {
             customPropertyMap.put("server.port", "0");
+            quantumCloudURL = "https://" + quantumInstance + ".spweblink.com/Service/SPTerminalService.asmx/";
         } else if (profiles.contains("demo")) {
             customPropertyMap.put("server.port", "0");
             quantumInstance = "demo";
+            quantumCloudURL = "https://" + quantumInstance + ".spweblink.com/Service/SPTerminalService.asmx/";
         } else if (profiles.contains("prod")) {
             customPropertyMap.put("server.port", "0");
             quantumInstance = "secure";
-        } else if (profiles.contains("dev") || profiles.contains("server")) {
+            quantumCloudURL = "https://" + quantumInstance + ".spweblink.com/Service/SPTerminalService.asmx/";
+        } else if (profiles.contains("server")) {
             customPropertyMap.put("server.port", "0");
             amqServer = "108.215.108.45";
             dbServer = "108.215.108.45";
-            quantumInstance = "qa";
+            quantumCloudURL = "https://" + quantumInstance + ".spweblink.com/Service/SPTerminalService.asmx/";
         }
 
-        String quantumCloudURL = "https://" + quantumInstance + ".spweblink.com/Service/SPTerminalService.asmx/";
 
         customPropertyMap.put("spring.activemq.broker-url", "tcp://"+ amqServer + ":61616");
         customPropertyMap.put("app.server.to.device.url", quantumCloudURL + "NewServerToDevice");
         customPropertyMap.put("app.device.to.server.url", quantumCloudURL + "NewDeviceToServer");
+        customPropertyMap.put("app.upload.raw.message.url", quantumCloudURL + "UploadRawResponse");
 
         customPropertyMap.put("spring.datasource.url", "jdbc:postgresql://" + dbServer + ":8088/trade_link");
         customPropertyMap.put("spring.datasource.username", "trade_link_dev");
