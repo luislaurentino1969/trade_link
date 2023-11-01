@@ -1,6 +1,5 @@
 package com.sp.tradelink.services;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sp.tradelink.gateways.HttpServerToDeviceGateway;
@@ -15,6 +14,7 @@ import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpServerErrorException;
 
 @Service
 public class QuantumHeartbeatRequestService {
@@ -41,29 +41,25 @@ public class QuantumHeartbeatRequestService {
 
     public Message<?> startHeartbeat(Message<?> request) {
         logger.debug("Will send the heartbeat request to cloud.\n{}", request.toString());
-
         QuantumHBResponse response = new QuantumHBResponse();
-        var hbResponse = httpServerToDeviceGateway.startHeartbeat(MessageBuilder.withPayload(request.getPayload())
-                .setHeader(HttpHeaders.CONTENT_TYPE, "application/json")
-                .setHeader(HttpHeaders.CONTENT_LENGTH, request.toString().length())
-                .setHeader(HttpHeaders.HOST, "TradeLink")
-                .build()).getPayload();
-
         ObjectMapper objectMapper = new ObjectMapper();
+        MessageBuilder<?> responseMessage = null;
         try {
+            var hbResponse = httpServerToDeviceGateway.startHeartbeat(MessageBuilder.withPayload(request.getPayload())
+                    .setHeader(HttpHeaders.CONTENT_TYPE, "application/json")
+                    .setHeader(HttpHeaders.CONTENT_LENGTH, request.toString().length())
+                    .setHeader(HttpHeaders.HOST, "TradeLink")
+                    .setHeader(HttpHeaders.CONNECTION, "close")
+                    .build()).getPayload();
+
+//        ObjectMapper objectMapper = new ObjectMapper();
 //            response = objectMapper.convertValue(objectMapper.convertValue(hbResponse, JsonNode.class)
 //                    .get("d"), QuantumHBResponse.class);
-            response = objectMapper.convertValue(objectMapper.convertValue(hbResponse, JsonNode.class), QuantumHBResponse.class);
-        } catch (Exception ex) {
-            response.setResultCode("-1");
-            response.setResultMsg("Error converting response format.");
-        }
-        logger.debug("Will return heartbeat response to device.\n{}", response.toString());
+            response = objectMapper.convertValue(hbResponse, QuantumHBResponse.class);
+            logger.debug("Will return heartbeat response to device.\n{}", response.toString());
 
-        var responseMessage = MessageCreatorHelper.createMessageWithMergedHeaders(response.toString(),
-                request.getHeaders());
-        try {
-
+            responseMessage = MessageCreatorHelper.createMessageWithMergedHeaders(response.toString(),
+                    request.getHeaders());
             if (request.getHeaders().containsKey(MsgHeaderConstants.SOURCE_HEADER)) {
                 if (request.getHeaders().get(MsgHeaderConstants.SOURCE_HEADER).equals("myself") &&
                         request.getHeaders().containsKey(MsgHeaderConstants.BRAND_HEADER) &&
@@ -75,14 +71,24 @@ public class QuantumHeartbeatRequestService {
                                     .getPayload()));
                     responseMessage = MessageCreatorHelper.createMessageWithMergedHeaders(response.toString(),
                             request.getHeaders());
-                } else if (!request.getHeaders().get(MsgHeaderConstants.SOURCE_HEADER).equals("myself")) {
-                    sendDataToBrandLink.send(responseMessage.build());
                 }
             }
+        } catch (IllegalArgumentException | HttpServerErrorException ex) {
+            response.setResultCode("000500");
+            response.setResultTxt("Invalid response format.");
+            logger.error("Incorrect message format.", ex);
         } catch (Exception ex) {
-            response.setResultTxt("Error parsing response data.");
-            responseMessage = MessageCreatorHelper.createMessageWithMergedHeaders(response.toString(),
-                    request.getHeaders());
+            response.setResultCode("-1");
+            response.setResultMsg("Error converting response format.");
+            logger.error("Internal error processing heart beat.", ex);
+        } finally {
+            if (responseMessage == null) {
+                responseMessage = MessageCreatorHelper.createMessageWithMergedHeaders(response.toString(),
+                        request.getHeaders());
+            }
+            if (!request.getHeaders().get(MsgHeaderConstants.SOURCE_HEADER).equals("myself")) {
+                sendDataToBrandLink.send(responseMessage.build());
+            }
         }
         return responseMessage.build();
     }

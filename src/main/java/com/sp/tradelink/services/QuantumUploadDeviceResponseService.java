@@ -37,6 +37,7 @@ public class QuantumUploadDeviceResponseService {
                 .setHeader(HttpHeaders.CONTENT_TYPE, "application/json")
                 .setHeader(HttpHeaders.CONTENT_LENGTH, request.toString().length())
                 .setHeader(HttpHeaders.HOST, "TradeLink")
+                .setHeader(HttpHeaders.CONNECTION, "close")
                 .build()).getPayload();
 
         ObjectMapper objectMapper = new ObjectMapper();

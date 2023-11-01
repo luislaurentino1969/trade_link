@@ -1,14 +1,20 @@
 package com.sp.tradelink.config;
 
+import com.sp.tradelink.common.HttpResponseException;
+import com.sp.tradelink.models.QuantumHBResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.http.outbound.HttpRequestExecutingMessageHandler;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
+import org.springframework.web.client.ResponseErrorHandler;
+
+import java.io.IOException;
 
 @Configuration
 public class HeartbeatHttpOutboundGatewayConfig {
@@ -36,6 +42,8 @@ public class HeartbeatHttpOutboundGatewayConfig {
         handler.setExpectReply(true);
         handler.setExpectedResponseType(Object.class);
         handler.setAsync(true);
+        handler.onError(new HttpResponseException());
+        handler.setExpectedResponseType(QuantumHBResponse.class);
         return handler;
     }
 

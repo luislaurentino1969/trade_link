@@ -9,9 +9,13 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class MessageCreatorHelper {
-    public static MessageBuilder createMessageWithMergedHeaders(Object payload, MessageHeaders headers) {
+    public static MessageBuilder<?> createMessageWithMergedHeaders(Object payload, MessageHeaders headers) {
         var responseMessage = MessageBuilder.withPayload(payload);
-        addMissingMessageHeaders(headers).forEach(responseMessage::setHeaderIfAbsent);
+        headers.forEach((headerKey, headerValue) -> {
+            if (!headerKey.equals("id") && !headerKey.equals("timestamp")) {
+                responseMessage.setHeaderIfAbsent(headerKey, headerValue);
+            }
+        });
         return responseMessage;
     }
 
