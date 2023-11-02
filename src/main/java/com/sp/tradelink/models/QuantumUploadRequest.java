@@ -1,5 +1,6 @@
 package com.sp.tradelink.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sp.tradelink.utils.AppStringUtils;
@@ -8,6 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class QuantumUploadRequest extends QuantumDefaultRequest {
     @JsonProperty("CommandType")
     private String commandType;
