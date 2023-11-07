@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.integration.channel.DirectChannel;
 import org.springframework.jms.connection.CachingConnectionFactory;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.messaging.MessageChannel;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
@@ -26,7 +28,12 @@ public class AppConfig {
 
     @Value("${spring.activemq.broker-url}")
     private String messagingServer;
-
+    @Value("${log.queue}")
+    private String logQueue;
+    @Bean("log-out-channel")
+    public MessageChannel logOutChannel() {
+        return new DirectChannel();
+    }
     @Bean
     public RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate();
@@ -36,7 +43,7 @@ public class AppConfig {
         if (CollectionUtils.isEmpty(interceptors)) {
             interceptors = new ArrayList<>();
         }
-        interceptors.add(new RestTemplateLogInterceptor());
+        interceptors.add(new RestTemplateLogInterceptor().setLogChannel(logOutChannel()));
         restTemplate.setInterceptors(interceptors);
         return restTemplate;
     }
@@ -60,7 +67,7 @@ public class AppConfig {
 //        poolingConnectionManager.setDefaultMaxPerRoute(poolSize);
 //        return poolingConnectionManager;
 //    }
-//
+
     @Bean
     public ConnectionFactory connectionFactory() {
         ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(messagingServer);

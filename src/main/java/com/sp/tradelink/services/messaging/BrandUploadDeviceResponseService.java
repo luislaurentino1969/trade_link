@@ -1,12 +1,9 @@
-package com.sp.tradelink.services;
+package com.sp.tradelink.services.messaging;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sp.tradelink.models.QuantumUploadRawRequest;
 import com.sp.tradelink.models.QuantumUploadRequest;
-import com.sp.tradelink.utils.MsgHeaderConstants;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
@@ -17,14 +14,13 @@ import java.util.concurrent.Executors;
 @Service
 public class BrandUploadDeviceResponseService {
     private final Logger logger;
+    private final QuantumUploadDeviceResponseService cloudService;
+    private final QuantumUploadRawMessageService uploadRawMessageService;
 
-    @Autowired
-    private QuantumUploadDeviceResponseService cloudService;
-    @Autowired
-    private QuantumUploadRawMessageService uploadRawMessageService;
-
-    public BrandUploadDeviceResponseService(Logger logger) {
+    public BrandUploadDeviceResponseService(Logger logger, QuantumUploadDeviceResponseService cloudService, QuantumUploadRawMessageService uploadRawMessageService) {
         this.logger = logger;
+        this.cloudService = cloudService;
+        this.uploadRawMessageService = uploadRawMessageService;
     }
 
     @ServiceActivator(inputChannel = "upload-request-in-channel")

@@ -1,4 +1,4 @@
-package com.sp.tradelink.config;
+package com.sp.tradelink.config.integration.http;
 
 import com.sp.tradelink.common.HttpResponseException;
 import com.sp.tradelink.models.QuantumHBResponse;

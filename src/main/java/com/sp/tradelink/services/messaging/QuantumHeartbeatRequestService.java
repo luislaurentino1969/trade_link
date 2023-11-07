@@ -1,4 +1,4 @@
-package com.sp.tradelink.services;
+package com.sp.tradelink.services.messaging;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;

@@ -1,8 +1,9 @@
-package com.sp.tradelink.services;
+package com.sp.tradelink.services.messaging;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sp.tradelink.gateways.HttpDeviceToServerGateway;
+import com.sp.tradelink.gateways.HttpUploadRawMessageGateway;
+import com.sp.tradelink.models.DefaultErrorResponse;
 import com.sp.tradelink.models.QuantumUploadResponse;
 import com.sp.tradelink.utils.MessageCreatorHelper;
 import com.sp.tradelink.utils.MsgHeaderConstants;
@@ -13,27 +14,28 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.MessageHeaders;
 import org.springframework.stereotype.Service;
 
 @Service
-public class QuantumUploadDeviceResponseService {
+public class QuantumUploadRawMessageService {
     public final Logger logger;
 
-    @Autowired
-    private HttpDeviceToServerGateway httpDeviceToServerGateway;
+    private final HttpUploadRawMessageGateway httpUploadRawMessageGateway;
 
-    @Qualifier("hb-response-out-channel")
-    @Autowired
-    private MessageChannel sendDataToBrandLink;
-    public QuantumUploadDeviceResponseService(Logger logger) {
+    private final MessageChannel sendDataToBrandLink;
+    public QuantumUploadRawMessageService(Logger logger, HttpUploadRawMessageGateway httpUploadRawMessageGateway, @Qualifier("hb-response-out-channel") MessageChannel sendDataToBrandLink) {
         this.logger = logger;
+        this.httpUploadRawMessageGateway = httpUploadRawMessageGateway;
+        this.sendDataToBrandLink = sendDataToBrandLink;
     }
 
     public Message<?> startUpload(Message<?> request) {
-        logger.debug("Will upload device response to cloud.\n{}",request.toString());
+        logger.debug("Will upload device raw message to cloud.\n{}",request.toString());
 
-        QuantumUploadResponse response = new QuantumUploadResponse();
-        var hbResponse = httpDeviceToServerGateway.sendResponseToCloud(MessageBuilder.withPayload(request.getPayload())
+        DefaultErrorResponse response = new DefaultErrorResponse();
+        MessageHeaders headers = request.getHeaders();
+        var hbResponse = httpUploadRawMessageGateway.sendRawMessageToCloud(MessageBuilder.withPayload(request.getPayload())
                 .setHeader(HttpHeaders.CONTENT_TYPE, "application/json")
                 .setHeader(HttpHeaders.CONTENT_LENGTH, request.toString().length())
                 .setHeader(HttpHeaders.HOST, "TradeLink")
@@ -43,19 +45,14 @@ public class QuantumUploadDeviceResponseService {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             response = objectMapper.convertValue(objectMapper.convertValue(hbResponse, JsonNode.class),
-                    QuantumUploadResponse.class);
+                    DefaultErrorResponse.class);
         } catch (Exception ex) {
             response.setResultCode("-1");
-            response.setResultMsg("Error converting response format.");
+            response.setResultMsg("Incorrect response format from cloud.");
+            response.setResultTxt("Response received ===> " + hbResponse);
         }
-
-        logger.debug("Will return upload response to device.\n{}",response.toString());
-
         MessageBuilder<?> uploadResponse = MessageCreatorHelper.createMessageWithMergedHeaders(response.toString(),
-                request.getHeaders());
-        if (request.getHeaders().containsKey(MsgHeaderConstants.SOURCE_HEADER)) {
-            sendDataToBrandLink.send(uploadResponse.build());
-        }
+                headers).setHeader(MsgHeaderConstants.TARGET_HEADER, "UploadRawResponse");
         return uploadResponse.build();
     }
 

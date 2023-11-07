@@ -107,6 +107,7 @@ public class AppPropertiesListener extends PropertySourcesPlaceholderConfigurer 
         customPropertyMap.put("server.to.device.queue", "ServerToDevice.q");
         customPropertyMap.put("device.to.server.queue", "DeviceToServer.q");
         customPropertyMap.put("reply.queue", "BrandLink.q");
+        customPropertyMap.put("log.queue", "TradeLinkLog.q");
         customPropertyMap.put("spring.activemq.packages.trust-all", "true");
 
         customPropertyMap.put("server.http2.enabled", "true");

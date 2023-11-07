@@ -3,7 +3,7 @@ package com.sp.tradelink.controllers;
 import com.sp.tradelink.models.DefaultErrorResponse;
 import com.sp.tradelink.models.QuantumHBRequest;
 import com.sp.tradelink.models.QuantumHBResponse;
-import com.sp.tradelink.services.QuantumHeartbeatRequestService;
+import com.sp.tradelink.services.messaging.QuantumHeartbeatRequestService;
 import com.sp.tradelink.utils.MsgHeaderConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.integration.annotation.IntegrationComponentScan;
@@ -27,11 +26,11 @@ import java.util.Map;
 public class ServerToDeviceController {
     private final Logger logger;
 
-    @Autowired
-    private QuantumHeartbeatRequestService service;
+    private final QuantumHeartbeatRequestService service;
 
-    public ServerToDeviceController(Logger logger) {
+    public ServerToDeviceController(Logger logger, QuantumHeartbeatRequestService service) {
         this.logger = logger;
+        this.service = service;
     }
 
     @Operation(summary = "Quantum ServerToDevice service")

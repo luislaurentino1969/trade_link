@@ -1,4 +1,4 @@
-package com.sp.tradelink.config;
+package com.sp.tradelink.config.integration.amq;
 
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,37 +15,37 @@ import javax.jms.ConnectionFactory;
 
 @Configuration
 @EnableIntegration
-public class ActiveMQDeviceToServerInboundConfig {
-    @Value("${device.to.server.queue}")
-    private String deviceToServerQueue;
+public class ActiveMQServerToDeviceInboundConfig {
+    @Value("${server.to.device.queue}")
+    private String serverToDeviceQueue;
 
     //region InboundGateway
-    @Bean("upload-request-in-channel")
-    public MessageChannel uploadRequestInChannel() {
+    @Bean("hb-request-in-channel")
+    public MessageChannel hbRequestInChannel() {
         return new DirectChannel();
     }
 
     @Bean
-    public JmsMessageDrivenEndpoint jmsMessageDeviceToServerDrivenEndpoint(
-            SimpleMessageListenerContainer deviceToServerMessageListenerContainer) {
+    public JmsMessageDrivenEndpoint jmsMessageServerToDeviceDrivenEndpoint(
+            SimpleMessageListenerContainer serverToDeviceMessageListenerContainer) {
         JmsMessageDrivenEndpoint endpoint = new JmsMessageDrivenEndpoint(
-                deviceToServerMessageListenerContainer,
-                deviceToServerChannelPublishingMessageListener());
-        endpoint.setOutputChannel(uploadRequestInChannel());
+                serverToDeviceMessageListenerContainer,
+                serverToDeviceChannelPublishingMessageListener());
+        endpoint.setOutputChannel(hbRequestInChannel());
         return endpoint;
     }
 
     @Bean
-    public SimpleMessageListenerContainer deviceToServerMessageListenerContainer(ConnectionFactory amqConnection) {
+    public SimpleMessageListenerContainer serverToDeviceMessageListenerContainer(ConnectionFactory amqConnection) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(amqConnection);
-        container.setDestination(new ActiveMQQueue(deviceToServerQueue));
-        container.setMessageSelector("Target = 'DeviceToServer'");
+        container.setDestination(new ActiveMQQueue(serverToDeviceQueue));
+        container.setMessageSelector("Target = 'ServerToDevice'");
         return container;
     }
 
     @Bean
-    public ChannelPublishingJmsMessageListener deviceToServerChannelPublishingMessageListener() {
+    public ChannelPublishingJmsMessageListener serverToDeviceChannelPublishingMessageListener() {
         ChannelPublishingJmsMessageListener channelPublishingJmsMessageListener =
                 new ChannelPublishingJmsMessageListener();
         channelPublishingJmsMessageListener.setExpectReply(false);

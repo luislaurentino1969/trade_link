@@ -1,4 +1,4 @@
-package com.sp.tradelink.config;
+package com.sp.tradelink.config.integration.amq;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

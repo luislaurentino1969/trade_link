@@ -1,27 +1,22 @@
-package com.sp.tradelink.services;
+package com.sp.tradelink.services.messaging;
 
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalUnit;
 import java.util.concurrent.Executors;
 
 @Service
 public class BrandHeartbeatRequestService {
     private final Logger logger;
 
-    @Autowired
-    private QuantumHeartbeatRequestService cloudService;
+    private final QuantumHeartbeatRequestService cloudService;
 
-    public BrandHeartbeatRequestService(Logger logger) {
+    public BrandHeartbeatRequestService(Logger logger, QuantumHeartbeatRequestService cloudService) {
         this.logger = logger;
+        this.cloudService = cloudService;
     }
 
     @ServiceActivator(inputChannel = "hb-request-in-channel")
