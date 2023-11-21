@@ -41,5 +41,7 @@
         </Logger>
         <Logger name="org.jpos" level="INFO">
         </Logger>
+        <Logger name="org.springframework.web.client" level="ALL">
+        </Logger>
     </Loggers>
 </Configuration>

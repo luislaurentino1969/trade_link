@@ -36,7 +36,7 @@ public class QuantumHBRequest extends QuantumDefaultRequest implements Serializa
                 this.serialNum == null || this.serialNum.isEmpty() || this.serialNum.isBlank() ||
                 this.terminalID == null || this.terminalID.isEmpty() || this.terminalID.isBlank() ||
                 this.ipAddress == null || this.ipAddress.isEmpty() || this.ipAddress.isBlank() ||
-                Integer.parseInt(this.timeout) < 90;
+                Integer.parseInt(this.timeout) < 45;
         return !result;
     }
 }

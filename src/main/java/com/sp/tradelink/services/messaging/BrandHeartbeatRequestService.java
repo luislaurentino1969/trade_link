@@ -22,7 +22,7 @@ public class BrandHeartbeatRequestService {
     @ServiceActivator(inputChannel = "hb-request-in-channel")
     public void processHeartbeatRequest(Message<?> heartbeat) {
         if (heartbeat.getHeaders().containsKey("jms_timestamp") && heartbeat.getHeaders().get("jms_timestamp", Long.class) != null &&
-                Instant.ofEpochMilli(heartbeat.getHeaders().get("jms_timestamp", Long.class)).plusSeconds(90).compareTo(Instant.now()) > 0) {
+                Instant.ofEpochMilli(heartbeat.getHeaders().get("jms_timestamp", Long.class)).plusSeconds(10).compareTo(Instant.now()) > 0) {
             logger.debug("Processing the quantum heartbeat process.");
             Executors.newSingleThreadExecutor().execute(() -> {
                 var responseMsg = cloudService.startHeartbeat(heartbeat);

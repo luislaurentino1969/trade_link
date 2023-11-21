@@ -62,11 +62,11 @@ public class AppPropertiesListener extends PropertySourcesPlaceholderConfigurer 
         if (profiles.contains("local") || profiles.contains("dev")) {
             customPropertyMap.put("server.port", "8081");
             dbName = "dev";
-            quantumInstance = "devweblink";
+            quantumInstance = "qa";
             quantumCloudURL = "https://" + quantumInstance + ".spweblink.com/Service/SPTerminal/";
         } else if (profiles.contains("qa")) {
             customPropertyMap.put("server.port", "0");
-            quantumCloudURL = "https://" + quantumInstance + ".spweblink.com/Service/SPTerminalService.asmx/";
+            quantumCloudURL = "https://" + quantumInstance + ".spweblink.com/Service/SPTerminal/";
         } else if (profiles.contains("demo")) {
             customPropertyMap.put("server.port", "0");
             quantumInstance = "demo";
@@ -79,7 +79,7 @@ public class AppPropertiesListener extends PropertySourcesPlaceholderConfigurer 
             customPropertyMap.put("server.port", "0");
             amqServer = "108.215.108.45";
             dbServer = "108.215.108.45";
-            quantumCloudURL = "https://" + quantumInstance + ".spweblink.com/Service/SPTerminalService.asmx/";
+            quantumCloudURL = "https://" + quantumInstance + ".spweblink.com/Service/SPTerminal/";
         }
 
 

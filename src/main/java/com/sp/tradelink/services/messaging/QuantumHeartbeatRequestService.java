@@ -49,7 +49,7 @@ public class QuantumHeartbeatRequestService {
                     .setHeader(HttpHeaders.CONTENT_TYPE, "application/json")
                     .setHeader(HttpHeaders.CONTENT_LENGTH, request.toString().length())
                     .setHeader(HttpHeaders.HOST, "TradeLink")
-                    .setHeader(HttpHeaders.CONNECTION, "close")
+                    .setHeader(HttpHeaders.CONNECTION, "Close")
                     .build()).getPayload();
 
 //        ObjectMapper objectMapper = new ObjectMapper();
