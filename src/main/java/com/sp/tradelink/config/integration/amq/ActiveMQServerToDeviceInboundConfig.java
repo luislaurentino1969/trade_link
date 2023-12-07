@@ -1,5 +1,6 @@
 package com.sp.tradelink.config.integration.amq;
 
+import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -12,12 +13,33 @@ import org.springframework.jms.listener.SimpleMessageListenerContainer;
 import org.springframework.messaging.MessageChannel;
 
 import javax.jms.ConnectionFactory;
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 @EnableIntegration
 public class ActiveMQServerToDeviceInboundConfig {
     @Value("${server.to.device.queue}")
     private String serverToDeviceQueue;
+
+//    @Value("${spring.activemq.broker-url}")
+//    private String messagingServer;
+//
+//    @Value("${spring.activemq.user-name}")
+//    private String brokerUser;
+//
+//    @Value("${spring.activemq.user-pwd}")
+//    private String brokerPwd;
+//
+//    @Bean
+//    public ConnectionFactory stdInboundConnection() {
+//        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(messagingServer);
+//        connectionFactory.setUserName(brokerUser);
+//        connectionFactory.setPassword(brokerPwd);
+//        connectionFactory.setTrustedPackages(new ArrayList<>(List.of("com.sp.equinox.link")));
+//
+//        return connectionFactory;
+//    }
 
     //region InboundGateway
     @Bean("hb-request-in-channel")

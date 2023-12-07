@@ -60,6 +60,7 @@ public class AppPropertiesListener extends PropertySourcesPlaceholderConfigurer 
         String quantumCloudURL = "";
 
         if (profiles.contains("local") || profiles.contains("dev")) {
+            amqServer="localhost";
             customPropertyMap.put("server.port", "8081");
             dbName = "dev";
             quantumInstance = "qa";
@@ -92,7 +93,7 @@ public class AppPropertiesListener extends PropertySourcesPlaceholderConfigurer 
         customPropertyMap.put("spring.datasource.username", "trade_link_dev");
         customPropertyMap.put("spring.datasource.password", "$2a$16$WOCTaXGVtJRnbKsmwRtB7.GY6S2DK3P89GVrVEhn6UanHW1ZDFeGO");
         customPropertyMap.put("spring.datasource.driver-class-name", "org.postgresql.Driver");
-        customPropertyMap.put("spring.jpa.hibernate.ddl-auto", "create");
+        customPropertyMap.put("spring.jpa.hibernate.ddl-auto", "none");
 
         customPropertyMap.put("app.brand.url","http://" + amqServer + "/{{brand_name}}/test-equinox");
 

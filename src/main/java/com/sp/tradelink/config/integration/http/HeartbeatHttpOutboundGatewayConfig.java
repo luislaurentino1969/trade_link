@@ -14,6 +14,8 @@ import org.springframework.integration.http.outbound.HttpRequestExecutingMessage
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 
+import java.time.Duration;
+
 @Configuration
 public class HeartbeatHttpOutboundGatewayConfig {
     @Value("${app.server.to.device.url}")
@@ -35,10 +37,16 @@ public class HeartbeatHttpOutboundGatewayConfig {
     @Bean
     @ServiceActivator(inputChannel = "serverToDeviceChannel")
     public MessageHandler postServerToDeviceService() {
+
+//        HttpComponentsClientHttpRequestFactory clientFactory = new HttpComponentsClientHttpRequestFactory();
+//        clientFactory.setConnectionRequestTimeout(Duration.ofSeconds(3).toSecondsPart());
+//        clientFactory.setConnectTimeout(Duration.ofSeconds(3).toSecondsPart());
+//        clientFactory.setReadTimeout(Duration.ofSeconds(95).toSecondsPart());
+        
         HttpRequestExecutingMessageHandler handler = new HttpRequestExecutingMessageHandler(serverToDevice);
         SimpleClientHttpRequestFactory clientFactory = new SimpleClientHttpRequestFactory();
-        clientFactory.setConnectTimeout(3 * 1000);
-        clientFactory.setReadTimeout(92 * 1000);
+        clientFactory.setConnectTimeout(2 * 1000);
+        clientFactory.setReadTimeout(95 * 1000);
         handler.setRequestFactory(clientFactory);
         handler.setHttpMethod(HttpMethod.POST);
         handler.setExpectReply(true);

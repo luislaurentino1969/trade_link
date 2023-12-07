@@ -16,6 +16,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
 import javax.jms.ConnectionFactory;
+import javax.jms.ExceptionListener;
+import javax.jms.JMSException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,6 +85,15 @@ public class AppConfig {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
         connectionFactory.setTargetConnectionFactory(connectionFactory());
         connectionFactory.setSessionCacheSize(100);
+        connectionFactory.setCacheConsumers(true);
+        connectionFactory.setCacheProducers(true);
+        connectionFactory.setReconnectOnException(true);
+        connectionFactory.setExceptionListener(new ExceptionListener() {
+            @Override
+            public void onException(JMSException e) {
+                getLogger().error("Broker cached connection error.", e);
+            }
+        });
         return connectionFactory;
     }
 

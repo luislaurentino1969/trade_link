@@ -1,188 +1,130 @@
-2023-11-06 09:35:25.865 [main] INFO  c.s.t.m.TradeLinkApplication                       - Starting TradeLinkApplication using Java 16.0.2 on LuisLaurentino-HP with PID 26928 (C:\Luis\SourceCode\SpringBoot\trade-link\target\classes started by LuisLaurentino in C:\Luis\SourceCode\SpringBoot\trade-link)
-2023-11-06 09:35:25.889 [main] DEBUG c.s.t.m.TradeLinkApplication                       - Running with Spring Boot v2.7.16, Spring v5.3.30
-2023-11-06 09:35:25.892 [main] INFO  c.s.t.m.TradeLinkApplication                       - The following 1 profile is active: "local"
-2023-11-06 09:35:27.026 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate          - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-11-06 09:35:27.043 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate          - Finished Spring Data repository scanning in 6 ms. Found 0 JPA repository interfaces.
-2023-11-06 09:35:27.171 [main] INFO  o.s.i.c.DefaultConfiguringBeanFactoryPostProcessor - No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
-2023-11-06 09:35:27.191 [main] INFO  o.s.i.c.DefaultConfiguringBeanFactoryPostProcessor - No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
-2023-11-06 09:35:27.937 [main] INFO  o.s.b.w.e.t.TomcatWebServer                        - Tomcat initialized with port(s): 8081 (http)
-2023-11-06 09:35:27.990 [main] INFO  o.a.c.h.Http11NioProtocol                          - The ["http-nio-8081"] connector has been configured to support HTTP upgrade to [h2c]
-2023-11-06 09:35:27.991 [main] INFO  o.a.c.h.Http11NioProtocol                          - Initializing ProtocolHandler ["http-nio-8081"]
-2023-11-06 09:35:27.997 [main] INFO  o.a.c.c.StandardService                            - Starting service [Tomcat]
-2023-11-06 09:35:27.998 [main] INFO  o.a.c.c.StandardEngine                             - Starting Servlet engine: [Apache Tomcat/9.0.80]
-2023-11-06 09:35:28.396 [main] INFO  o.a.c.c.C.[.[.[/trade-link]                        - Initializing Spring embedded WebApplicationContext
-2023-11-06 09:35:28.397 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext     - Root WebApplicationContext: initialization completed in 2418 ms
-2023-11-06 09:35:28.843 [main] INFO  o.h.j.i.u.LogHelper                                - HHH000204: Processing PersistenceUnitInfo [name: TradeLinkDB]
-2023-11-06 09:35:29.060 [main] INFO  o.h.Version                                        - HHH000412: Hibernate ORM core version 5.6.15.Final
-2023-11-06 09:35:29.677 [main] INFO  o.h.a.c.Version                                    - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2023-11-06 09:35:30.165 [main] INFO  c.z.h.HikariDataSource                             - HikariPool-1 - Starting...
-2023-11-06 09:35:30.653 [main] INFO  c.z.h.HikariDataSource                             - HikariPool-1 - Start completed.
-2023-11-06 09:35:30.681 [main] INFO  o.h.d.Dialect                                      - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
-2023-11-06 09:35:31.018 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator                 - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-11-06 09:35:31.041 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean     - Initialized JPA EntityManagerFactory for persistence unit 'TradeLinkDB'
-2023-11-06 09:35:31.726 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-11-06 09:35:32.970 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
-2023-11-06 09:35:32.970 [main] INFO  o.s.i.c.PublishSubscribeChannel                    - Channel 'application.errorChannel' has 1 subscriber(s).
-2023-11-06 09:35:32.970 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean '_org.springframework.integration.errorLogger'
-2023-11-06 09:35:32.971 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {message-handler:activeMQDeviceToServerOutboundConfig.jmsMessageHandler.serviceActivator} as a subscriber to the 'upload-response-out-channel' channel
-2023-11-06 09:35:32.971 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.upload-response-out-channel' has 1 subscriber(s).
-2023-11-06 09:35:32.971 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'activeMQDeviceToServerOutboundConfig.jmsMessageHandler.serviceActivator'
-2023-11-06 09:35:32.971 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {message-handler:activeMQServerToDeviceOutboundConfig.jmsMessageHandler.serviceActivator} as a subscriber to the 'hb-response-out-channel' channel
-2023-11-06 09:35:32.971 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.hb-response-out-channel' has 1 subscriber(s).
-2023-11-06 09:35:32.971 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'activeMQServerToDeviceOutboundConfig.jmsMessageHandler.serviceActivator'
-2023-11-06 09:35:32.971 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {http:outbound-gateway:heartbeatHttpOutboundGatewayConfig.postDeviceToServerService.serviceActivator} as a subscriber to the 'deviceToServerChannel' channel
-2023-11-06 09:35:32.971 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.deviceToServerChannel' has 1 subscriber(s).
-2023-11-06 09:35:32.971 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'heartbeatHttpOutboundGatewayConfig.postDeviceToServerService.serviceActivator'
-2023-11-06 09:35:32.971 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {http:outbound-gateway:heartbeatHttpOutboundGatewayConfig.postServerToDeviceService.serviceActivator} as a subscriber to the 'serverToDeviceChannel' channel
-2023-11-06 09:35:32.971 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.serverToDeviceChannel' has 1 subscriber(s).
-2023-11-06 09:35:32.971 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'heartbeatHttpOutboundGatewayConfig.postServerToDeviceService.serviceActivator'
-2023-11-06 09:35:32.971 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {http:outbound-gateway:heartbeatHttpOutboundGatewayConfig.postBrandRawMessageService.serviceActivator} as a subscriber to the 'uploadRawMessageChannel' channel
-2023-11-06 09:35:32.972 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.uploadRawMessageChannel' has 1 subscriber(s).
-2023-11-06 09:35:32.972 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'heartbeatHttpOutboundGatewayConfig.postBrandRawMessageService.serviceActivator'
-2023-11-06 09:35:32.972 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {service-activator:brandHeartbeatRequestService.processHeartbeatRequest.serviceActivator} as a subscriber to the 'hb-request-in-channel' channel
-2023-11-06 09:35:32.972 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.hb-request-in-channel' has 1 subscriber(s).
-2023-11-06 09:35:32.972 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'brandHeartbeatRequestService.processHeartbeatRequest.serviceActivator'
-2023-11-06 09:35:32.972 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {service-activator:brandUploadDeviceResponseService.processUploadResponse.serviceActivator} as a subscriber to the 'upload-request-in-channel' channel
-2023-11-06 09:35:32.972 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.upload-request-in-channel' has 1 subscriber(s).
-2023-11-06 09:35:32.972 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'brandUploadDeviceResponseService.processUploadResponse.serviceActivator'
-2023-11-06 09:35:32.973 [main] INFO  o.s.i.g.GatewayProxyFactoryBean$MethodInvocationGateway - started bean 'httpDeviceToServerGateway#sendResponseToCloud(Message)'
-2023-11-06 09:35:32.973 [main] INFO  o.s.i.g.GatewayProxyFactoryBean                    - started bean 'httpDeviceToServerGateway'
-2023-11-06 09:35:32.973 [main] INFO  o.s.i.g.GatewayProxyFactoryBean$MethodInvocationGateway - started bean 'httpServerToDeviceGateway#startHeartbeat(Message)'
-2023-11-06 09:35:32.973 [main] INFO  o.s.i.g.GatewayProxyFactoryBean                    - started bean 'httpServerToDeviceGateway'
-2023-11-06 09:35:32.973 [main] INFO  o.s.i.g.GatewayProxyFactoryBean$MethodInvocationGateway - started bean 'httpUploadRawMessageGateway#sendRawMessageToCloud(Message)'
-2023-11-06 09:35:32.973 [main] INFO  o.s.i.g.GatewayProxyFactoryBean                    - started bean 'httpUploadRawMessageGateway'
-2023-11-06 09:35:32.973 [main] INFO  o.s.i.j.ChannelPublishingJmsMessageListener$GatewayDelegate - started org.springframework.integration.jms.ChannelPublishingJmsMessageListener$GatewayDelegate@61d527ac
-2023-11-06 09:35:32.973 [main] INFO  o.s.i.j.JmsMessageDrivenEndpoint                   - started bean 'jmsMessageDeviceToServerDrivenEndpoint'; defined in: 'class path resource [com/sp/tradelink/config/ActiveMQDeviceToServerInboundConfig.class]'; from source: 'com.sp.tradelink.config.amq.ActiveMQDeviceToServerInboundConfig.jmsMessageDeviceToServerDrivenEndpoint(org.springframework.jms.listener.SimpleMessageListenerContainer)'
-2023-11-06 09:35:32.974 [main] INFO  o.s.i.j.ChannelPublishingJmsMessageListener$GatewayDelegate - started org.springframework.integration.jms.ChannelPublishingJmsMessageListener$GatewayDelegate@498503cb
-2023-11-06 09:35:32.974 [main] INFO  o.s.i.j.JmsMessageDrivenEndpoint                   - started bean 'jmsMessageServerToDeviceDrivenEndpoint'; defined in: 'class path resource [com/sp/tradelink/config/ActiveMQServerToDeviceInboundConfig.class]'; from source: 'com.sp.tradelink.config.amq.ActiveMQServerToDeviceInboundConfig.jmsMessageServerToDeviceDrivenEndpoint(org.springframework.jms.listener.SimpleMessageListenerContainer)'
-2023-11-06 09:35:32.974 [main] INFO  o.a.c.h.Http11NioProtocol                          - Starting ProtocolHandler ["http-nio-8081"]
-2023-11-06 09:35:32.992 [main] INFO  o.s.b.w.e.t.TomcatWebServer                        - Tomcat started on port(s): 8081 (http) with context path '/trade-link'
-2023-11-06 09:35:33.002 [main] INFO  c.s.t.m.TradeLinkApplication                       - Started TradeLinkApplication in 7.819 seconds (JVM running for 10.244)
-2023-11-06 10:07:18.164 [main] INFO  c.s.t.m.TradeLinkApplication                       - Starting TradeLinkApplication using Java 16.0.2 on LuisLaurentino-HP with PID 9964 (C:\Luis\SourceCode\SpringBoot\trade-link\target\classes started by LuisLaurentino in C:\Luis\SourceCode\SpringBoot\trade-link)
-2023-11-06 10:07:18.170 [main] DEBUG c.s.t.m.TradeLinkApplication                       - Running with Spring Boot v2.7.16, Spring v5.3.30
-2023-11-06 10:07:18.171 [main] INFO  c.s.t.m.TradeLinkApplication                       - The following 1 profile is active: "local"
-2023-11-06 10:07:18.907 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate          - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-11-06 10:07:18.918 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate          - Finished Spring Data repository scanning in 4 ms. Found 0 JPA repository interfaces.
-2023-11-06 10:07:18.986 [main] INFO  o.s.i.c.DefaultConfiguringBeanFactoryPostProcessor - No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
-2023-11-06 10:07:18.998 [main] INFO  o.s.i.c.DefaultConfiguringBeanFactoryPostProcessor - No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
-2023-11-06 10:07:19.470 [main] INFO  o.s.b.w.e.t.TomcatWebServer                        - Tomcat initialized with port(s): 8081 (http)
-2023-11-06 10:07:19.482 [main] INFO  o.a.c.h.Http11NioProtocol                          - The ["http-nio-8081"] connector has been configured to support HTTP upgrade to [h2c]
-2023-11-06 10:07:19.482 [main] INFO  o.a.c.h.Http11NioProtocol                          - Initializing ProtocolHandler ["http-nio-8081"]
-2023-11-06 10:07:19.484 [main] INFO  o.a.c.c.StandardService                            - Starting service [Tomcat]
-2023-11-06 10:07:19.484 [main] INFO  o.a.c.c.StandardEngine                             - Starting Servlet engine: [Apache Tomcat/9.0.80]
-2023-11-06 10:07:19.668 [main] INFO  o.a.c.c.C.[.[.[/trade-link]                        - Initializing Spring embedded WebApplicationContext
-2023-11-06 10:07:19.668 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext     - Root WebApplicationContext: initialization completed in 1460 ms
-2023-11-06 10:07:19.805 [main] INFO  o.h.j.i.u.LogHelper                                - HHH000204: Processing PersistenceUnitInfo [name: TradeLinkDB]
-2023-11-06 10:07:19.843 [main] INFO  o.h.Version                                        - HHH000412: Hibernate ORM core version 5.6.15.Final
-2023-11-06 10:07:19.961 [main] INFO  o.h.a.c.Version                                    - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2023-11-06 10:07:20.109 [main] INFO  c.z.h.HikariDataSource                             - HikariPool-1 - Starting...
-2023-11-06 10:07:20.373 [main] INFO  c.z.h.HikariDataSource                             - HikariPool-1 - Start completed.
-2023-11-06 10:07:20.387 [main] INFO  o.h.d.Dialect                                      - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
-2023-11-06 10:07:20.545 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator                 - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-11-06 10:07:20.557 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean     - Initialized JPA EntityManagerFactory for persistence unit 'TradeLinkDB'
-2023-11-06 10:07:21.105 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-11-06 10:07:22.107 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
-2023-11-06 10:07:22.108 [main] INFO  o.s.i.c.PublishSubscribeChannel                    - Channel 'application.errorChannel' has 1 subscriber(s).
-2023-11-06 10:07:22.108 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean '_org.springframework.integration.errorLogger'
-2023-11-06 10:07:22.109 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {message-handler:activeMQDeviceToServerOutboundConfig.jmsMessageHandler.serviceActivator} as a subscriber to the 'upload-response-out-channel' channel
-2023-11-06 10:07:22.109 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.upload-response-out-channel' has 1 subscriber(s).
-2023-11-06 10:07:22.109 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'activeMQDeviceToServerOutboundConfig.jmsMessageHandler.serviceActivator'
-2023-11-06 10:07:22.109 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {message-handler:activeMQServerToDeviceOutboundConfig.jmsMessageHandler.serviceActivator} as a subscriber to the 'hb-response-out-channel' channel
-2023-11-06 10:07:22.109 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.hb-response-out-channel' has 1 subscriber(s).
-2023-11-06 10:07:22.109 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'activeMQServerToDeviceOutboundConfig.jmsMessageHandler.serviceActivator'
-2023-11-06 10:07:22.110 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {http:outbound-gateway:heartbeatHttpOutboundGatewayConfig.postDeviceToServerService.serviceActivator} as a subscriber to the 'deviceToServerChannel' channel
-2023-11-06 10:07:22.110 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.deviceToServerChannel' has 1 subscriber(s).
-2023-11-06 10:07:22.110 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'heartbeatHttpOutboundGatewayConfig.postDeviceToServerService.serviceActivator'
-2023-11-06 10:07:22.110 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {http:outbound-gateway:heartbeatHttpOutboundGatewayConfig.postBrandRawMessageService.serviceActivator} as a subscriber to the 'uploadRawMessageChannel' channel
-2023-11-06 10:07:22.110 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.uploadRawMessageChannel' has 1 subscriber(s).
-2023-11-06 10:07:22.110 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'heartbeatHttpOutboundGatewayConfig.postBrandRawMessageService.serviceActivator'
-2023-11-06 10:07:22.110 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {http:outbound-gateway:heartbeatHttpOutboundGatewayConfig.postServerToDeviceService.serviceActivator} as a subscriber to the 'serverToDeviceChannel' channel
-2023-11-06 10:07:22.110 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.serverToDeviceChannel' has 1 subscriber(s).
-2023-11-06 10:07:22.110 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'heartbeatHttpOutboundGatewayConfig.postServerToDeviceService.serviceActivator'
-2023-11-06 10:07:22.111 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {service-activator:brandHeartbeatRequestService.processHeartbeatRequest.serviceActivator} as a subscriber to the 'hb-request-in-channel' channel
-2023-11-06 10:07:22.111 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.hb-request-in-channel' has 1 subscriber(s).
-2023-11-06 10:07:22.111 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'brandHeartbeatRequestService.processHeartbeatRequest.serviceActivator'
-2023-11-06 10:07:22.111 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {service-activator:brandUploadDeviceResponseService.processUploadResponse.serviceActivator} as a subscriber to the 'upload-request-in-channel' channel
-2023-11-06 10:07:22.111 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.upload-request-in-channel' has 1 subscriber(s).
-2023-11-06 10:07:22.112 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'brandUploadDeviceResponseService.processUploadResponse.serviceActivator'
-2023-11-06 10:07:22.112 [main] INFO  o.s.i.g.GatewayProxyFactoryBean$MethodInvocationGateway - started bean 'httpDeviceToServerGateway#sendResponseToCloud(Message)'
-2023-11-06 10:07:22.112 [main] INFO  o.s.i.g.GatewayProxyFactoryBean                    - started bean 'httpDeviceToServerGateway'
-2023-11-06 10:07:22.112 [main] INFO  o.s.i.g.GatewayProxyFactoryBean$MethodInvocationGateway - started bean 'httpServerToDeviceGateway#startHeartbeat(Message)'
-2023-11-06 10:07:22.112 [main] INFO  o.s.i.g.GatewayProxyFactoryBean                    - started bean 'httpServerToDeviceGateway'
-2023-11-06 10:07:22.112 [main] INFO  o.s.i.g.GatewayProxyFactoryBean$MethodInvocationGateway - started bean 'httpUploadRawMessageGateway#sendRawMessageToCloud(Message)'
-2023-11-06 10:07:22.113 [main] INFO  o.s.i.g.GatewayProxyFactoryBean                    - started bean 'httpUploadRawMessageGateway'
-2023-11-06 10:07:22.113 [main] INFO  o.s.i.j.ChannelPublishingJmsMessageListener$GatewayDelegate - started org.springframework.integration.jms.ChannelPublishingJmsMessageListener$GatewayDelegate@5a5b394
-2023-11-06 10:07:22.113 [main] INFO  o.s.i.j.JmsMessageDrivenEndpoint                   - started bean 'jmsMessageDeviceToServerDrivenEndpoint'; defined in: 'class path resource [com/sp/tradelink/config/ActiveMQDeviceToServerInboundConfig.class]'; from source: 'com.sp.tradelink.config.amq.ActiveMQDeviceToServerInboundConfig.jmsMessageDeviceToServerDrivenEndpoint(org.springframework.jms.listener.SimpleMessageListenerContainer)'
-2023-11-06 10:07:22.113 [main] INFO  o.s.i.j.ChannelPublishingJmsMessageListener$GatewayDelegate - started org.springframework.integration.jms.ChannelPublishingJmsMessageListener$GatewayDelegate@6c9b6332
-2023-11-06 10:07:22.113 [main] INFO  o.s.i.j.JmsMessageDrivenEndpoint                   - started bean 'jmsLogMessageDrivenEndpoint'; defined in: 'class path resource [com/sp/tradelink/config/ActiveMQLogInboundConfig.class]'; from source: 'com.sp.tradelink.config.amq.ActiveMQLogInboundConfig.jmsLogMessageDrivenEndpoint(org.springframework.jms.listener.SimpleMessageListenerContainer)'
-2023-11-06 10:07:22.113 [main] INFO  o.s.i.j.ChannelPublishingJmsMessageListener$GatewayDelegate - started org.springframework.integration.jms.ChannelPublishingJmsMessageListener$GatewayDelegate@384b3fe7
-2023-11-06 10:07:22.113 [main] INFO  o.s.i.j.JmsMessageDrivenEndpoint                   - started bean 'jmsMessageServerToDeviceDrivenEndpoint'; defined in: 'class path resource [com/sp/tradelink/config/ActiveMQServerToDeviceInboundConfig.class]'; from source: 'com.sp.tradelink.config.amq.ActiveMQServerToDeviceInboundConfig.jmsMessageServerToDeviceDrivenEndpoint(org.springframework.jms.listener.SimpleMessageListenerContainer)'
-2023-11-06 10:07:22.114 [main] INFO  o.a.c.h.Http11NioProtocol                          - Starting ProtocolHandler ["http-nio-8081"]
-2023-11-06 10:07:22.156 [main] INFO  o.s.b.w.e.t.TomcatWebServer                        - Tomcat started on port(s): 8081 (http) with context path '/trade-link'
-2023-11-06 10:07:22.165 [main] INFO  c.s.t.m.TradeLinkApplication                       - Started TradeLinkApplication in 4.364 seconds (JVM running for 5.6)
-2023-11-06 10:18:22.466 [main] INFO  c.s.t.m.TradeLinkApplication                       - Starting TradeLinkApplication using Java 16.0.2 on LuisLaurentino-HP with PID 7176 (C:\Luis\SourceCode\SpringBoot\trade-link\target\classes started by LuisLaurentino in C:\Luis\SourceCode\SpringBoot\trade-link)
-2023-11-06 10:18:22.474 [main] DEBUG c.s.t.m.TradeLinkApplication                       - Running with Spring Boot v2.7.16, Spring v5.3.30
-2023-11-06 10:18:22.475 [main] INFO  c.s.t.m.TradeLinkApplication                       - The following 1 profile is active: "local"
-2023-11-06 10:18:23.377 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate          - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-11-06 10:18:23.394 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate          - Finished Spring Data repository scanning in 7 ms. Found 0 JPA repository interfaces.
-2023-11-06 10:18:23.502 [main] INFO  o.s.i.c.DefaultConfiguringBeanFactoryPostProcessor - No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
-2023-11-06 10:18:23.513 [main] INFO  o.s.i.c.DefaultConfiguringBeanFactoryPostProcessor - No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
-2023-11-06 10:18:24.069 [main] INFO  o.s.b.w.e.t.TomcatWebServer                        - Tomcat initialized with port(s): 8081 (http)
-2023-11-06 10:18:24.087 [main] INFO  o.a.c.h.Http11NioProtocol                          - The ["http-nio-8081"] connector has been configured to support HTTP upgrade to [h2c]
-2023-11-06 10:18:24.087 [main] INFO  o.a.c.h.Http11NioProtocol                          - Initializing ProtocolHandler ["http-nio-8081"]
-2023-11-06 10:18:24.090 [main] INFO  o.a.c.c.StandardService                            - Starting service [Tomcat]
-2023-11-06 10:18:24.090 [main] INFO  o.a.c.c.StandardEngine                             - Starting Servlet engine: [Apache Tomcat/9.0.80]
-2023-11-06 10:18:24.296 [main] INFO  o.a.c.c.C.[.[.[/trade-link]                        - Initializing Spring embedded WebApplicationContext
-2023-11-06 10:18:24.296 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext     - Root WebApplicationContext: initialization completed in 1783 ms
-2023-11-06 10:18:24.411 [main] INFO  o.h.j.i.u.LogHelper                                - HHH000204: Processing PersistenceUnitInfo [name: TradeLinkDB]
-2023-11-06 10:18:24.449 [main] INFO  o.h.Version                                        - HHH000412: Hibernate ORM core version 5.6.15.Final
-2023-11-06 10:18:24.582 [main] INFO  o.h.a.c.Version                                    - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2023-11-06 10:18:24.719 [main] INFO  c.z.h.HikariDataSource                             - HikariPool-1 - Starting...
-2023-11-06 10:18:24.961 [main] INFO  c.z.h.HikariDataSource                             - HikariPool-1 - Start completed.
-2023-11-06 10:18:24.974 [main] INFO  o.h.d.Dialect                                      - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
-2023-11-06 10:18:25.133 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator                 - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-11-06 10:18:25.144 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean     - Initialized JPA EntityManagerFactory for persistence unit 'TradeLinkDB'
-2023-11-06 10:18:25.721 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-11-06 10:18:26.840 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
-2023-11-06 10:18:26.840 [main] INFO  o.s.i.c.PublishSubscribeChannel                    - Channel 'application.errorChannel' has 1 subscriber(s).
-2023-11-06 10:18:26.842 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean '_org.springframework.integration.errorLogger'
-2023-11-06 10:18:26.842 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {message-handler:activeMQDeviceToServerOutboundConfig.jmsMessageHandler.serviceActivator} as a subscriber to the 'upload-response-out-channel' channel
-2023-11-06 10:18:26.842 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.upload-response-out-channel' has 1 subscriber(s).
-2023-11-06 10:18:26.842 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'activeMQDeviceToServerOutboundConfig.jmsMessageHandler.serviceActivator'
-2023-11-06 10:18:26.842 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {message-handler:activeMQServerToDeviceOutboundConfig.jmsMessageHandler.serviceActivator} as a subscriber to the 'hb-response-out-channel' channel
-2023-11-06 10:18:26.842 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.hb-response-out-channel' has 1 subscriber(s).
-2023-11-06 10:18:26.842 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'activeMQServerToDeviceOutboundConfig.jmsMessageHandler.serviceActivator'
-2023-11-06 10:18:26.842 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {http:outbound-gateway:heartbeatHttpOutboundGatewayConfig.postServerToDeviceService.serviceActivator} as a subscriber to the 'serverToDeviceChannel' channel
-2023-11-06 10:18:26.842 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.serverToDeviceChannel' has 1 subscriber(s).
-2023-11-06 10:18:26.842 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'heartbeatHttpOutboundGatewayConfig.postServerToDeviceService.serviceActivator'
-2023-11-06 10:18:26.842 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {http:outbound-gateway:heartbeatHttpOutboundGatewayConfig.postDeviceToServerService.serviceActivator} as a subscriber to the 'deviceToServerChannel' channel
-2023-11-06 10:18:26.843 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.deviceToServerChannel' has 1 subscriber(s).
-2023-11-06 10:18:26.843 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'heartbeatHttpOutboundGatewayConfig.postDeviceToServerService.serviceActivator'
-2023-11-06 10:18:26.843 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {http:outbound-gateway:heartbeatHttpOutboundGatewayConfig.postBrandRawMessageService.serviceActivator} as a subscriber to the 'uploadRawMessageChannel' channel
-2023-11-06 10:18:26.843 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.uploadRawMessageChannel' has 1 subscriber(s).
-2023-11-06 10:18:26.843 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'heartbeatHttpOutboundGatewayConfig.postBrandRawMessageService.serviceActivator'
-2023-11-06 10:18:26.843 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {service-activator:brandHeartbeatRequestService.processHeartbeatRequest.serviceActivator} as a subscriber to the 'hb-request-in-channel' channel
-2023-11-06 10:18:26.843 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.hb-request-in-channel' has 1 subscriber(s).
-2023-11-06 10:18:26.843 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'brandHeartbeatRequestService.processHeartbeatRequest.serviceActivator'
-2023-11-06 10:18:26.843 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {service-activator:brandUploadDeviceResponseService.processUploadResponse.serviceActivator} as a subscriber to the 'upload-request-in-channel' channel
-2023-11-06 10:18:26.843 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.upload-request-in-channel' has 1 subscriber(s).
-2023-11-06 10:18:26.843 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'brandUploadDeviceResponseService.processUploadResponse.serviceActivator'
-2023-11-06 10:18:26.843 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {service-activator:logErrorsService.processMessageReceived.serviceActivator} as a subscriber to the 'log-in-channel' channel
-2023-11-06 10:18:26.843 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.log-in-channel' has 1 subscriber(s).
-2023-11-06 10:18:26.843 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'logErrorsService.processMessageReceived.serviceActivator'
-2023-11-06 10:18:26.843 [main] INFO  o.s.i.g.GatewayProxyFactoryBean$MethodInvocationGateway - started bean 'httpDeviceToServerGateway#sendResponseToCloud(Message)'
-2023-11-06 10:18:26.844 [main] INFO  o.s.i.g.GatewayProxyFactoryBean                    - started bean 'httpDeviceToServerGateway'
-2023-11-06 10:18:26.844 [main] INFO  o.s.i.g.GatewayProxyFactoryBean$MethodInvocationGateway - started bean 'httpServerToDeviceGateway#startHeartbeat(Message)'
-2023-11-06 10:18:26.844 [main] INFO  o.s.i.g.GatewayProxyFactoryBean                    - started bean 'httpServerToDeviceGateway'
-2023-11-06 10:18:26.844 [main] INFO  o.s.i.g.GatewayProxyFactoryBean$MethodInvocationGateway - started bean 'httpUploadRawMessageGateway#sendRawMessageToCloud(Message)'
-2023-11-06 10:18:26.844 [main] INFO  o.s.i.g.GatewayProxyFactoryBean                    - started bean 'httpUploadRawMessageGateway'
-2023-11-06 10:18:26.844 [main] INFO  o.s.i.j.ChannelPublishingJmsMessageListener$GatewayDelegate - started org.springframework.integration.jms.ChannelPublishingJmsMessageListener$GatewayDelegate@572db5ee
-2023-11-06 10:18:26.844 [main] INFO  o.s.i.j.JmsMessageDrivenEndpoint                   - started bean 'jmsMessageDeviceToServerDrivenEndpoint'; defined in: 'class path resource [com/sp/tradelink/config/ActiveMQDeviceToServerInboundConfig.class]'; from source: 'com.sp.tradelink.config.amq.ActiveMQDeviceToServerInboundConfig.jmsMessageDeviceToServerDrivenEndpoint(org.springframework.jms.listener.SimpleMessageListenerContainer)'
-2023-11-06 10:18:26.844 [main] INFO  o.s.i.j.ChannelPublishingJmsMessageListener$GatewayDelegate - started org.springframework.integration.jms.ChannelPublishingJmsMessageListener$GatewayDelegate@36f80ceb
-2023-11-06 10:18:26.844 [main] INFO  o.s.i.j.JmsMessageDrivenEndpoint                   - started bean 'jmsLogMessageDrivenEndpoint'; defined in: 'class path resource [com/sp/tradelink/config/ActiveMQLogInboundConfig.class]'; from source: 'com.sp.tradelink.config.amq.ActiveMQLogInboundConfig.jmsLogMessageDrivenEndpoint(org.springframework.jms.listener.SimpleMessageListenerContainer)'
-2023-11-06 10:18:26.844 [main] INFO  o.s.i.j.ChannelPublishingJmsMessageListener$GatewayDelegate - started org.springframework.integration.jms.ChannelPublishingJmsMessageListener$GatewayDelegate@31ab75a5
-2023-11-06 10:18:26.844 [main] INFO  o.s.i.j.JmsMessageDrivenEndpoint                   - started bean 'jmsMessageServerToDeviceDrivenEndpoint'; defined in: 'class path resource [com/sp/tradelink/config/ActiveMQServerToDeviceInboundConfig.class]'; from source: 'com.sp.tradelink.config.amq.ActiveMQServerToDeviceInboundConfig.jmsMessageServerToDeviceDrivenEndpoint(org.springframework.jms.listener.SimpleMessageListenerContainer)'
-2023-11-06 10:18:26.845 [main] INFO  o.a.c.h.Http11NioProtocol                          - Starting ProtocolHandler ["http-nio-8081"]
-2023-11-06 10:18:26.911 [main] INFO  o.s.b.w.e.t.TomcatWebServer                        - Tomcat started on port(s): 8081 (http) with context path '/trade-link'
-2023-11-06 10:18:26.921 [main] INFO  c.s.t.m.TradeLinkApplication                       - Started TradeLinkApplication in 4.858 seconds (JVM running for 5.979)
-2023-11-06 10:19:21.775 [ActiveMQ Session Task-1] INFO  o.s.i.h.s.MessagingMethodInvokerHelper             - Overriding default instance of MessageHandlerMethodFactory with provided one.
+2023-12-01 15:39:16.559 [main] INFO  c.s.t.m.TradeLinkApplication                       - Starting TradeLinkApplication using Java 16.0.2 on LuisLaurentino-HP with PID 32464 (C:\Luis\SourceCode\SpringBoot\trade-link\target\classes started by LuisLaurentino in C:\Luis\SourceCode\SpringBoot\trade-link)
+2023-12-01 15:39:16.574 [main] DEBUG c.s.t.m.TradeLinkApplication                       - Running with Spring Boot v2.7.16, Spring v5.3.30
+2023-12-01 15:39:16.575 [main] INFO  c.s.t.m.TradeLinkApplication                       - The following 1 profile is active: "local"
+2023-12-01 15:39:17.410 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate          - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-12-01 15:39:17.423 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate          - Finished Spring Data repository scanning in 5 ms. Found 0 JPA repository interfaces.
+2023-12-01 15:39:17.499 [main] INFO  o.s.i.c.DefaultConfiguringBeanFactoryPostProcessor - No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2023-12-01 15:39:17.506 [main] INFO  o.s.i.c.DefaultConfiguringBeanFactoryPostProcessor - No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2023-12-01 15:39:17.989 [main] INFO  o.s.b.w.e.t.TomcatWebServer                        - Tomcat initialized with port(s): 8081 (http)
+2023-12-01 15:39:17.999 [main] INFO  o.a.c.h.Http11NioProtocol                          - The ["http-nio-8081"] connector has been configured to support HTTP upgrade to [h2c]
+2023-12-01 15:39:18.000 [main] INFO  o.a.c.h.Http11NioProtocol                          - Initializing ProtocolHandler ["http-nio-8081"]
+2023-12-01 15:39:18.001 [main] INFO  o.a.c.c.StandardService                            - Starting service [Tomcat]
+2023-12-01 15:39:18.001 [main] INFO  o.a.c.c.StandardEngine                             - Starting Servlet engine: [Apache Tomcat/9.0.80]
+2023-12-01 15:39:18.259 [main] INFO  o.a.c.c.C.[.[.[/trade-link]                        - Initializing Spring embedded WebApplicationContext
+2023-12-01 15:39:18.259 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext     - Root WebApplicationContext: initialization completed in 1643 ms
+2023-12-01 15:39:18.368 [main] INFO  o.h.j.i.u.LogHelper                                - HHH000204: Processing PersistenceUnitInfo [name: TradeLinkDB]
+2023-12-01 15:39:18.411 [main] INFO  o.h.Version                                        - HHH000412: Hibernate ORM core version 5.6.15.Final
+2023-12-01 15:39:18.552 [main] INFO  o.h.a.c.Version                                    - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-12-01 15:39:18.688 [main] INFO  c.z.h.HikariDataSource                             - HikariPool-1 - Starting...
+2023-12-01 15:39:18.996 [main] INFO  c.z.h.HikariDataSource                             - HikariPool-1 - Start completed.
+2023-12-01 15:39:19.008 [main] INFO  o.h.d.Dialect                                      - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2023-12-01 15:39:19.169 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator                 - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-12-01 15:39:19.186 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean     - Initialized JPA EntityManagerFactory for persistence unit 'TradeLinkDB'
+2023-12-01 15:39:19.903 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-12-01 15:39:21.030 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2023-12-01 15:39:21.031 [main] INFO  o.s.i.c.PublishSubscribeChannel                    - Channel 'application.errorChannel' has 1 subscriber(s).
+2023-12-01 15:39:21.031 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean '_org.springframework.integration.errorLogger'
+2023-12-01 15:39:21.031 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {message-handler:activeMQDeviceToServerOutboundConfig.jmsMessageHandler.serviceActivator} as a subscriber to the 'upload-response-out-channel' channel
+2023-12-01 15:39:21.031 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.upload-response-out-channel' has 1 subscriber(s).
+2023-12-01 15:39:21.031 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'activeMQDeviceToServerOutboundConfig.jmsMessageHandler.serviceActivator'
+2023-12-01 15:39:21.031 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {message-handler:activeMQServerToDeviceOutboundConfig.jmsMessageHandler.serviceActivator} as a subscriber to the 'hb-response-out-channel' channel
+2023-12-01 15:39:21.031 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.hb-response-out-channel' has 1 subscriber(s).
+2023-12-01 15:39:21.032 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'activeMQServerToDeviceOutboundConfig.jmsMessageHandler.serviceActivator'
+2023-12-01 15:39:21.032 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {http:outbound-gateway:heartbeatHttpOutboundGatewayConfig.postDeviceToServerService.serviceActivator} as a subscriber to the 'deviceToServerChannel' channel
+2023-12-01 15:39:21.032 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.deviceToServerChannel' has 1 subscriber(s).
+2023-12-01 15:39:21.032 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'heartbeatHttpOutboundGatewayConfig.postDeviceToServerService.serviceActivator'
+2023-12-01 15:39:21.032 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {http:outbound-gateway:heartbeatHttpOutboundGatewayConfig.postServerToDeviceService.serviceActivator} as a subscriber to the 'serverToDeviceChannel' channel
+2023-12-01 15:39:21.032 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.serverToDeviceChannel' has 1 subscriber(s).
+2023-12-01 15:39:21.032 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'heartbeatHttpOutboundGatewayConfig.postServerToDeviceService.serviceActivator'
+2023-12-01 15:39:21.032 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {http:outbound-gateway:heartbeatHttpOutboundGatewayConfig.postBrandRawMessageService.serviceActivator} as a subscriber to the 'uploadRawMessageChannel' channel
+2023-12-01 15:39:21.032 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.uploadRawMessageChannel' has 1 subscriber(s).
+2023-12-01 15:39:21.032 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'heartbeatHttpOutboundGatewayConfig.postBrandRawMessageService.serviceActivator'
+2023-12-01 15:39:21.032 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {service-activator:brandHeartbeatRequestService.processHeartbeatRequest.serviceActivator} as a subscriber to the 'hb-request-in-channel' channel
+2023-12-01 15:39:21.032 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.hb-request-in-channel' has 1 subscriber(s).
+2023-12-01 15:39:21.032 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'brandHeartbeatRequestService.processHeartbeatRequest.serviceActivator'
+2023-12-01 15:39:21.032 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {service-activator:brandUploadDeviceResponseService.processUploadResponse.serviceActivator} as a subscriber to the 'upload-request-in-channel' channel
+2023-12-01 15:39:21.032 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.upload-request-in-channel' has 1 subscriber(s).
+2023-12-01 15:39:21.032 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'brandUploadDeviceResponseService.processUploadResponse.serviceActivator'
+2023-12-01 15:39:21.032 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {service-activator:logErrorsService.processMessageReceived.serviceActivator} as a subscriber to the 'log-in-channel' channel
+2023-12-01 15:39:21.032 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.log-in-channel' has 1 subscriber(s).
+2023-12-01 15:39:21.032 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'logErrorsService.processMessageReceived.serviceActivator'
+2023-12-01 15:39:21.032 [main] INFO  o.s.i.g.GatewayProxyFactoryBean$MethodInvocationGateway - started bean 'httpDeviceToServerGateway#sendResponseToCloud(Message)'
+2023-12-01 15:39:21.032 [main] INFO  o.s.i.g.GatewayProxyFactoryBean                    - started bean 'httpDeviceToServerGateway'
+2023-12-01 15:39:21.033 [main] INFO  o.s.i.g.GatewayProxyFactoryBean$MethodInvocationGateway - started bean 'httpServerToDeviceGateway#startHeartbeat(Message)'
+2023-12-01 15:39:21.033 [main] INFO  o.s.i.g.GatewayProxyFactoryBean                    - started bean 'httpServerToDeviceGateway'
+2023-12-01 15:39:21.033 [main] INFO  o.s.i.g.GatewayProxyFactoryBean$MethodInvocationGateway - started bean 'httpUploadRawMessageGateway#sendRawMessageToCloud(Message)'
+2023-12-01 15:39:21.033 [main] INFO  o.s.i.g.GatewayProxyFactoryBean                    - started bean 'httpUploadRawMessageGateway'
+2023-12-01 15:39:21.033 [main] INFO  o.s.i.j.ChannelPublishingJmsMessageListener$GatewayDelegate - started org.springframework.integration.jms.ChannelPublishingJmsMessageListener$GatewayDelegate@3b399f5a
+2023-12-01 15:39:21.033 [main] INFO  o.s.i.j.JmsMessageDrivenEndpoint                   - started bean 'jmsMessageDeviceToServerDrivenEndpoint'; defined in: 'class path resource [com/sp/tradelink/config/integration/amq/ActiveMQDeviceToServerInboundConfig.class]'; from source: 'com.sp.tradelink.config.integration.amq.ActiveMQDeviceToServerInboundConfig.jmsMessageDeviceToServerDrivenEndpoint(org.springframework.jms.listener.SimpleMessageListenerContainer)'
+2023-12-01 15:39:21.033 [main] INFO  o.s.i.j.ChannelPublishingJmsMessageListener$GatewayDelegate - started org.springframework.integration.jms.ChannelPublishingJmsMessageListener$GatewayDelegate@16f2d883
+2023-12-01 15:39:21.033 [main] INFO  o.s.i.j.JmsMessageDrivenEndpoint                   - started bean 'jmsLogMessageDrivenEndpoint'; defined in: 'class path resource [com/sp/tradelink/config/integration/amq/ActiveMQLogInboundConfig.class]'; from source: 'com.sp.tradelink.config.integration.amq.ActiveMQLogInboundConfig.jmsLogMessageDrivenEndpoint(org.springframework.jms.listener.SimpleMessageListenerContainer)'
+2023-12-01 15:39:21.033 [main] INFO  o.s.i.j.ChannelPublishingJmsMessageListener$GatewayDelegate - started org.springframework.integration.jms.ChannelPublishingJmsMessageListener$GatewayDelegate@71806c64
+2023-12-01 15:39:21.033 [main] INFO  o.s.i.j.JmsMessageDrivenEndpoint                   - started bean 'jmsMessageServerToDeviceDrivenEndpoint'; defined in: 'class path resource [com/sp/tradelink/config/integration/amq/ActiveMQServerToDeviceInboundConfig.class]'; from source: 'com.sp.tradelink.config.integration.amq.ActiveMQServerToDeviceInboundConfig.jmsMessageServerToDeviceDrivenEndpoint(org.springframework.jms.listener.SimpleMessageListenerContainer)'
+2023-12-01 15:39:21.034 [main] INFO  o.a.c.h.Http11NioProtocol                          - Starting ProtocolHandler ["http-nio-8081"]
+2023-12-01 15:39:21.073 [main] INFO  o.s.b.w.e.t.TomcatWebServer                        - Tomcat started on port(s): 8081 (http) with context path '/trade-link'
+2023-12-01 15:39:21.082 [main] INFO  c.s.t.m.TradeLinkApplication                       - Started TradeLinkApplication in 4.907 seconds (JVM running for 6.312)
+2023-12-01 15:50:08.678 [main] INFO  c.s.t.m.TradeLinkApplication                       - Starting TradeLinkApplication using Java 16.0.2 on LuisLaurentino-HP with PID 20588 (C:\Luis\SourceCode\SpringBoot\trade-link\target\classes started by LuisLaurentino in C:\Luis\SourceCode\SpringBoot\trade-link)
+2023-12-01 15:50:08.685 [main] DEBUG c.s.t.m.TradeLinkApplication                       - Running with Spring Boot v2.7.16, Spring v5.3.30
+2023-12-01 15:50:08.685 [main] INFO  c.s.t.m.TradeLinkApplication                       - The following 1 profile is active: "local"
+2023-12-01 15:50:09.313 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate          - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-12-01 15:50:09.325 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate          - Finished Spring Data repository scanning in 5 ms. Found 0 JPA repository interfaces.
+2023-12-01 15:50:09.391 [main] INFO  o.s.i.c.DefaultConfiguringBeanFactoryPostProcessor - No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2023-12-01 15:50:09.404 [main] INFO  o.s.i.c.DefaultConfiguringBeanFactoryPostProcessor - No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2023-12-01 15:50:09.809 [main] INFO  o.s.b.w.e.t.TomcatWebServer                        - Tomcat initialized with port(s): 8081 (http)
+2023-12-01 15:50:09.819 [main] INFO  o.a.c.h.Http11NioProtocol                          - The ["http-nio-8081"] connector has been configured to support HTTP upgrade to [h2c]
+2023-12-01 15:50:09.819 [main] INFO  o.a.c.h.Http11NioProtocol                          - Initializing ProtocolHandler ["http-nio-8081"]
+2023-12-01 15:50:09.821 [main] INFO  o.a.c.c.StandardService                            - Starting service [Tomcat]
+2023-12-01 15:50:09.821 [main] INFO  o.a.c.c.StandardEngine                             - Starting Servlet engine: [Apache Tomcat/9.0.80]
+2023-12-01 15:50:09.994 [main] INFO  o.a.c.c.C.[.[.[/trade-link]                        - Initializing Spring embedded WebApplicationContext
+2023-12-01 15:50:09.994 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext     - Root WebApplicationContext: initialization completed in 1275 ms
+2023-12-01 15:50:10.096 [main] INFO  o.h.j.i.u.LogHelper                                - HHH000204: Processing PersistenceUnitInfo [name: TradeLinkDB]
+2023-12-01 15:50:10.129 [main] INFO  o.h.Version                                        - HHH000412: Hibernate ORM core version 5.6.15.Final
+2023-12-01 15:50:10.234 [main] INFO  o.h.a.c.Version                                    - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-12-01 15:50:10.368 [main] INFO  c.z.h.HikariDataSource                             - HikariPool-1 - Starting...
+2023-12-01 15:50:10.582 [main] INFO  c.z.h.HikariDataSource                             - HikariPool-1 - Start completed.
+2023-12-01 15:50:10.594 [main] INFO  o.h.d.Dialect                                      - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2023-12-01 15:50:10.740 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator                 - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-12-01 15:50:10.749 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean     - Initialized JPA EntityManagerFactory for persistence unit 'TradeLinkDB'
+2023-12-01 15:50:11.218 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-12-01 15:50:12.266 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2023-12-01 15:50:12.266 [main] INFO  o.s.i.c.PublishSubscribeChannel                    - Channel 'application.errorChannel' has 1 subscriber(s).
+2023-12-01 15:50:12.266 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean '_org.springframework.integration.errorLogger'
+2023-12-01 15:50:12.267 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {message-handler:activeMQDeviceToServerOutboundConfig.jmsMessageHandler.serviceActivator} as a subscriber to the 'upload-response-out-channel' channel
+2023-12-01 15:50:12.267 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.upload-response-out-channel' has 1 subscriber(s).
+2023-12-01 15:50:12.267 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'activeMQDeviceToServerOutboundConfig.jmsMessageHandler.serviceActivator'
+2023-12-01 15:50:12.267 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {message-handler:activeMQServerToDeviceOutboundConfig.jmsMessageHandler.serviceActivator} as a subscriber to the 'hb-response-out-channel' channel
+2023-12-01 15:50:12.267 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.hb-response-out-channel' has 1 subscriber(s).
+2023-12-01 15:50:12.267 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'activeMQServerToDeviceOutboundConfig.jmsMessageHandler.serviceActivator'
+2023-12-01 15:50:12.267 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {http:outbound-gateway:heartbeatHttpOutboundGatewayConfig.postBrandRawMessageService.serviceActivator} as a subscriber to the 'uploadRawMessageChannel' channel
+2023-12-01 15:50:12.267 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.uploadRawMessageChannel' has 1 subscriber(s).
+2023-12-01 15:50:12.267 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'heartbeatHttpOutboundGatewayConfig.postBrandRawMessageService.serviceActivator'
+2023-12-01 15:50:12.267 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {http:outbound-gateway:heartbeatHttpOutboundGatewayConfig.postServerToDeviceService.serviceActivator} as a subscriber to the 'serverToDeviceChannel' channel
+2023-12-01 15:50:12.267 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.serverToDeviceChannel' has 1 subscriber(s).
+2023-12-01 15:50:12.267 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'heartbeatHttpOutboundGatewayConfig.postServerToDeviceService.serviceActivator'
+2023-12-01 15:50:12.268 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {http:outbound-gateway:heartbeatHttpOutboundGatewayConfig.postDeviceToServerService.serviceActivator} as a subscriber to the 'deviceToServerChannel' channel
+2023-12-01 15:50:12.268 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.deviceToServerChannel' has 1 subscriber(s).
+2023-12-01 15:50:12.268 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'heartbeatHttpOutboundGatewayConfig.postDeviceToServerService.serviceActivator'
+2023-12-01 15:50:12.268 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {service-activator:brandHeartbeatRequestService.processHeartbeatRequest.serviceActivator} as a subscriber to the 'hb-request-in-channel' channel
+2023-12-01 15:50:12.268 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.hb-request-in-channel' has 1 subscriber(s).
+2023-12-01 15:50:12.268 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'brandHeartbeatRequestService.processHeartbeatRequest.serviceActivator'
+2023-12-01 15:50:12.268 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {service-activator:brandUploadDeviceResponseService.processUploadResponse.serviceActivator} as a subscriber to the 'upload-request-in-channel' channel
+2023-12-01 15:50:12.268 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.upload-request-in-channel' has 1 subscriber(s).
+2023-12-01 15:50:12.268 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'brandUploadDeviceResponseService.processUploadResponse.serviceActivator'
+2023-12-01 15:50:12.268 [main] INFO  o.s.i.e.EventDrivenConsumer                        - Adding {service-activator:logErrorsService.processMessageReceived.serviceActivator} as a subscriber to the 'log-in-channel' channel
+2023-12-01 15:50:12.268 [main] INFO  o.s.i.c.DirectChannel                              - Channel 'application.log-in-channel' has 1 subscriber(s).
+2023-12-01 15:50:12.268 [main] INFO  o.s.i.e.EventDrivenConsumer                        - started bean 'logErrorsService.processMessageReceived.serviceActivator'
+2023-12-01 15:50:12.268 [main] INFO  o.s.i.g.GatewayProxyFactoryBean$MethodInvocationGateway - started bean 'httpDeviceToServerGateway#sendResponseToCloud(Message)'
+2023-12-01 15:50:12.269 [main] INFO  o.s.i.g.GatewayProxyFactoryBean                    - started bean 'httpDeviceToServerGateway'
+2023-12-01 15:50:12.269 [main] INFO  o.s.i.g.GatewayProxyFactoryBean$MethodInvocationGateway - started bean 'httpServerToDeviceGateway#startHeartbeat(Message)'
+2023-12-01 15:50:12.269 [main] INFO  o.s.i.g.GatewayProxyFactoryBean                    - started bean 'httpServerToDeviceGateway'
+2023-12-01 15:50:12.269 [main] INFO  o.s.i.g.GatewayProxyFactoryBean$MethodInvocationGateway - started bean 'httpUploadRawMessageGateway#sendRawMessageToCloud(Message)'
+2023-12-01 15:50:12.269 [main] INFO  o.s.i.g.GatewayProxyFactoryBean                    - started bean 'httpUploadRawMessageGateway'
+2023-12-01 15:50:12.269 [main] INFO  o.s.i.j.ChannelPublishingJmsMessageListener$GatewayDelegate - started org.springframework.integration.jms.ChannelPublishingJmsMessageListener$GatewayDelegate@5a23b9d1
+2023-12-01 15:50:12.269 [main] INFO  o.s.i.j.JmsMessageDrivenEndpoint                   - started bean 'jmsMessageDeviceToServerDrivenEndpoint'; defined in: 'class path resource [com/sp/tradelink/config/integration/amq/ActiveMQDeviceToServerInboundConfig.class]'; from source: 'com.sp.tradelink.config.integration.amq.ActiveMQDeviceToServerInboundConfig.jmsMessageDeviceToServerDrivenEndpoint(org.springframework.jms.listener.SimpleMessageListenerContainer)'
+2023-12-01 15:50:12.270 [main] INFO  o.s.i.j.ChannelPublishingJmsMessageListener$GatewayDelegate - started org.springframework.integration.jms.ChannelPublishingJmsMessageListener$GatewayDelegate@3962b216
+2023-12-01 15:50:12.270 [main] INFO  o.s.i.j.JmsMessageDrivenEndpoint                   - started bean 'jmsLogMessageDrivenEndpoint'; defined in: 'class path resource [com/sp/tradelink/config/integration/amq/ActiveMQLogInboundConfig.class]'; from source: 'com.sp.tradelink.config.integration.amq.ActiveMQLogInboundConfig.jmsLogMessageDrivenEndpoint(org.springframework.jms.listener.SimpleMessageListenerContainer)'
+2023-12-01 15:50:12.270 [main] INFO  o.s.i.j.ChannelPublishingJmsMessageListener$GatewayDelegate - started org.springframework.integration.jms.ChannelPublishingJmsMessageListener$GatewayDelegate@3183a37c
+2023-12-01 15:50:12.270 [main] INFO  o.s.i.j.JmsMessageDrivenEndpoint                   - started bean 'jmsMessageServerToDeviceDrivenEndpoint'; defined in: 'class path resource [com/sp/tradelink/config/integration/amq/ActiveMQServerToDeviceInboundConfig.class]'; from source: 'com.sp.tradelink.config.integration.amq.ActiveMQServerToDeviceInboundConfig.jmsMessageServerToDeviceDrivenEndpoint(org.springframework.jms.listener.SimpleMessageListenerContainer)'
+2023-12-01 15:50:12.270 [main] INFO  o.a.c.h.Http11NioProtocol                          - Starting ProtocolHandler ["http-nio-8081"]
+2023-12-01 15:50:12.306 [main] INFO  o.s.b.w.e.t.TomcatWebServer                        - Tomcat started on port(s): 8081 (http) with context path '/trade-link'
+2023-12-01 15:50:12.313 [main] INFO  c.s.t.m.TradeLinkApplication                       - Started TradeLinkApplication in 4.019 seconds (JVM running for 4.926)
