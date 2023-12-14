@@ -11,10 +11,10 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class QuantumUploadRequest extends QuantumDefaultRequest {
-    @JsonProperty("CommandType")
-    private String commandType;
-    @JsonProperty("CommandResponse")
-    private JsonNode commandResponse;
+    @JsonProperty("ServiceOperation")
+    private String serviceOperation;
+    @JsonProperty("SPResponse")
+    private JsonNode spResponse;
     @JsonProperty("ExtData")
     private JsonNode extData;
 

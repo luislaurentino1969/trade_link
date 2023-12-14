@@ -2,14 +2,11 @@ package com.sp.tradelink.main;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent;
-import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.*;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author Luis Laurentino
@@ -59,7 +56,7 @@ public class AppPropertiesListener extends PropertySourcesPlaceholderConfigurer 
         String dbName = quantumInstance;
         String quantumCloudURL = "";
 
-        if (profiles.contains("local") || profiles.contains("dev")) {
+        if (profiles.contains("local")) {
             amqServer="localhost";
             customPropertyMap.put("server.port", "8081");
             dbName = "dev";
@@ -76,7 +73,7 @@ public class AppPropertiesListener extends PropertySourcesPlaceholderConfigurer 
             customPropertyMap.put("server.port", "0");
             quantumInstance = "secure";
             quantumCloudURL = "https://" + quantumInstance + ".spweblink.com/Service/SPTerminalService.asmx/";
-        } else if (profiles.contains("server")) {
+        } else if (profiles.contains("dev") || profiles.contains("server")) {
             customPropertyMap.put("server.port", "0");
             amqServer = "108.215.108.45";
             dbServer = "108.215.108.45";

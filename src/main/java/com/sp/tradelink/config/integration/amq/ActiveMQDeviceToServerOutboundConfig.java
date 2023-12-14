@@ -1,6 +1,5 @@
 package com.sp.tradelink.config.integration.amq;
 
-import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,10 +9,6 @@ import org.springframework.integration.jms.JmsSendingMessageHandler;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
-
-import javax.jms.ConnectionFactory;
-import java.util.ArrayList;
-import java.util.List;
 
 @Configuration
 public class ActiveMQDeviceToServerOutboundConfig {

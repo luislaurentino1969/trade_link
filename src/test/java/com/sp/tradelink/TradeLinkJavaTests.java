@@ -17,6 +17,7 @@ import java.util.function.Consumer;
 import static org.junit.Assert.assertTrue;
 
 public class TradeLinkJavaTests {
+
     @Test
     public void checkPassword() throws NoSuchAlgorithmException {
 

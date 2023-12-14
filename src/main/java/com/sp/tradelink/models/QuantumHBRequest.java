@@ -7,8 +7,6 @@ import com.sp.tradelink.utils.AppStringUtils;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.io.Serializable;
 
 @JsonIgnoreProperties(ignoreUnknown = true)

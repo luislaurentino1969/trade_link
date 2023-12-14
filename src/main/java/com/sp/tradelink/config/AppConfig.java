@@ -1,6 +1,9 @@
 package com.sp.tradelink.config;
 
 import com.sp.tradelink.common.RestTemplateLogInterceptor;
+import jakarta.jms.ConnectionFactory;
+import jakarta.jms.ExceptionListener;
+import jakarta.jms.JMSException;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,9 +18,6 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
-import javax.jms.ConnectionFactory;
-import javax.jms.ExceptionListener;
-import javax.jms.JMSException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,12 +88,7 @@ public class AppConfig {
         connectionFactory.setCacheConsumers(true);
         connectionFactory.setCacheProducers(true);
         connectionFactory.setReconnectOnException(true);
-        connectionFactory.setExceptionListener(new ExceptionListener() {
-            @Override
-            public void onException(JMSException e) {
-                getLogger().error("Broker cached connection error.", e);
-            }
-        });
+        connectionFactory.setExceptionListener(e -> getLogger().error("Broker cached connection error.", e));
         return connectionFactory;
     }
 

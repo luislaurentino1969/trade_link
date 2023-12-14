@@ -13,10 +13,10 @@ public class QuantumUploadResponse extends QuantumDefaultResponse {
     private String amount;
     @JsonProperty("TraceNum")
     private String traceNum;
-    @JsonProperty("CommandType")
-    private String commandType;
-    @JsonProperty("CommandRequest")
-    private JsonNode commandRequest;
+    @JsonProperty("ServiceOperation")
+    private String serviceOperation;
+    @JsonProperty("SPRequest")
+    private JsonNode spRequest;
     @JsonProperty("ExtData")
     private JsonNode extData;
 

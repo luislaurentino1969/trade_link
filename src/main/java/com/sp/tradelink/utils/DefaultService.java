@@ -1,7 +1,5 @@
 package com.sp.tradelink.utils;
 
-import com.sp.tradelink.models.DefaultErrorResponse;
-import com.sp.tradelink.models.QuantumDefaultResponse;
 import org.springframework.stereotype.Service;
 
 @Service

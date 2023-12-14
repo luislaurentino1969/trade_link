@@ -6,15 +6,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.http.outbound.HttpRequestExecutingMessageHandler;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
-
-import java.time.Duration;
 
 @Configuration
 public class HeartbeatHttpOutboundGatewayConfig {
@@ -38,11 +35,6 @@ public class HeartbeatHttpOutboundGatewayConfig {
     @ServiceActivator(inputChannel = "serverToDeviceChannel")
     public MessageHandler postServerToDeviceService() {
 
-//        HttpComponentsClientHttpRequestFactory clientFactory = new HttpComponentsClientHttpRequestFactory();
-//        clientFactory.setConnectionRequestTimeout(Duration.ofSeconds(3).toSecondsPart());
-//        clientFactory.setConnectTimeout(Duration.ofSeconds(3).toSecondsPart());
-//        clientFactory.setReadTimeout(Duration.ofSeconds(95).toSecondsPart());
-        
         HttpRequestExecutingMessageHandler handler = new HttpRequestExecutingMessageHandler(serverToDevice);
         SimpleClientHttpRequestFactory clientFactory = new SimpleClientHttpRequestFactory();
         clientFactory.setConnectTimeout(2 * 1000);

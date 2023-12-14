@@ -47,7 +47,7 @@ public class QuantumHeartbeatRequestService {
         try {
             var hbResponse = httpServerToDeviceGateway.startHeartbeat(MessageBuilder.withPayload(request.getPayload())
                     .setHeader(HttpHeaders.CONTENT_TYPE, "application/json")
-                    .setHeader(HttpHeaders.CONTENT_LENGTH, request.toString().length())
+                    .setHeader(HttpHeaders.CONTENT_LENGTH, request.getPayload().toString().length())
                     .setHeader(HttpHeaders.HOST, "TradeLink")
                     .setHeader(HttpHeaders.CONNECTION, "Close")
                     .build()).getPayload();
@@ -66,7 +66,7 @@ public class QuantumHeartbeatRequestService {
                         response.getResultCode().equals("0")) {
                     QuantumUploadRequest deviceResponse = httpBrandService.sendHttpToBrandLink(response.toString(),
                             request.getHeaders().get(MsgHeaderConstants.BRAND_HEADER).toString());
-                    ((ObjectNode) response.getExtData()).put("DeviceToServerResponse", objectMapper
+                    ((ObjectNode) response.getExtData()).set("DeviceToServerResponse", objectMapper
                             .readTree((String) service.startUpload(MessageBuilder.withPayload(deviceResponse).build())
                                     .getPayload()));
                     responseMessage = MessageCreatorHelper.createMessageWithMergedHeaders(response.toString(),

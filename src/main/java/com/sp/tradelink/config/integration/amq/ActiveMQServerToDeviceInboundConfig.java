@@ -1,6 +1,6 @@
 package com.sp.tradelink.config.integration.amq;
 
-import org.apache.activemq.ActiveMQConnectionFactory;
+import jakarta.jms.ConnectionFactory;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -12,9 +12,6 @@ import org.springframework.integration.jms.JmsMessageDrivenEndpoint;
 import org.springframework.jms.listener.SimpleMessageListenerContainer;
 import org.springframework.messaging.MessageChannel;
 
-import javax.jms.ConnectionFactory;
-import java.util.ArrayList;
-import java.util.List;
 
 @Configuration
 @EnableIntegration

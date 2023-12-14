@@ -7,7 +7,6 @@ import com.sp.tradelink.models.QuantumUploadResponse;
 import com.sp.tradelink.utils.MessageCreatorHelper;
 import com.sp.tradelink.utils.MsgHeaderConstants;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.integration.support.MessageBuilder;
@@ -34,7 +33,7 @@ public class QuantumUploadDeviceResponseService {
         QuantumUploadResponse response = new QuantumUploadResponse();
         var hbResponse = httpDeviceToServerGateway.sendResponseToCloud(MessageBuilder.withPayload(request.getPayload())
                 .setHeader(HttpHeaders.CONTENT_TYPE, "application/json")
-                .setHeader(HttpHeaders.CONTENT_LENGTH, request.toString().length())
+                .setHeader(HttpHeaders.CONTENT_LENGTH, request.getPayload().toString().length())
                 .setHeader(HttpHeaders.HOST, "TradeLink")
                 .setHeader(HttpHeaders.CONNECTION, "close")
                 .build()).getPayload();

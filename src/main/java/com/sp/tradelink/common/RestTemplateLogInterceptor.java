@@ -33,6 +33,7 @@ public class RestTemplateLogInterceptor implements ClientHttpRequestInterceptor 
         try {
             response = execution.execute(request, body);
         } catch (Exception ex) {
+            //todo send log to queue
             getLogChannel().send(new GenericMessage<>(ex));
             throw ex;
         }

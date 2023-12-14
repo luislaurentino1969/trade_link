@@ -1,12 +1,10 @@
 package com.sp.tradelink.utils;
 
 import org.springframework.integration.support.MessageBuilder;
-import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiConsumer;
 
 public class MessageCreatorHelper {
     public static MessageBuilder<?> createMessageWithMergedHeaders(Object payload, MessageHeaders headers) {

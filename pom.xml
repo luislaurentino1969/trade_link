@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.16</version>
+        <version>3.2.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.sp</groupId>
@@ -15,7 +15,8 @@
     <name>trade-link</name>
     <description>trade-link</description>
     <properties>
-        <java.version>16</java.version>
+        <java.version>20</java.version>
+        <maven.build.timestamp.format>yyyy_MM_dd-HH_mm_ss</maven.build.timestamp.format>
     </properties>
     <dependencies>
         <dependency>
@@ -130,7 +131,7 @@
     </dependencies>
 
     <build>
-        <finalName>trade-link##v${project.version}</finalName>
+        <finalName>trade-link#v${project.version}##v${project.version}b-${maven.build.timestamp}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -155,9 +156,15 @@
             </properties>
         </profile>
         <profile>
-            <id>server</id>
+            <id>dev</id>
             <properties>
-                <active.profile>server</active.profile>
+                <active.profile>dev</active.profile>
+            </properties>
+        </profile>
+        <profile>
+            <id>qa</id>
+            <properties>
+                <active.profile>qa</active.profile>
             </properties>
         </profile>
     </profiles>

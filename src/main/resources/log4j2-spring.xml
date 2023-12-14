@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <springProperty scope="context" name="ACTIVE_PROFILE" source="spring.profiles.active"/>
+    <springProfile name="local">
+        <Appenders>
+            <Console name="Console" target="SYSTEM_OUT">
+                <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t]
+      %highlight{%level}{FATAL=bg_red, ERROR=red, WARN=yellow, INFO=green, DEBUG=blue} %-50c{1.} - %msg%n"/>
+            </Console>
+            <RollingFile
+                    name="LogToFile"
+                    fileName="logs/app.log"
+                    filePattern="logs/app.%d{yyyy_MM_dd}.log.gz"
+                    ignoreExceptions="false">
+                <PatternLayout>
+                    <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %-50c{1.} - %msg%n</Pattern>
+                </PatternLayout>
+                <Policies>
+                    <TimeBasedTriggeringPolicy interval="1"/>
+                </Policies>
+                <DefaultRolloverStrategy max="5">
+                    <Delete basePath="logs" maxDepth="2">
+                        <IfFileName glob="*/app-*.log.gz"/>
+                        <IfLastModified age="P30D"/>
+                    </Delete>
+                </DefaultRolloverStrategy>
+            </RollingFile>
+        </Appenders>
+        <Loggers>
+            <Root level="INFO">
+                <AppenderRef ref="Console"/>
+                <AppenderRef ref="LogToFile"/>
+            </Root>
+            <Logger name="com.sp.tradelink" level="ALL">
+            </Logger>
+            <Logger name="com.sp.tradelink.services" level="ALL">
+            </Logger>
+            <Logger name="org.springframework" level="INFO">
+            </Logger>
+            <Logger name="org.springframework.integration" level="INFO">
+            </Logger>
+            <Logger name="org.springframework.integration.samples" level="INFO">
+            </Logger>
+            <Logger name="org.jpos" level="INFO">
+            </Logger>
+        </Loggers>
+    </springProfile>
+    <springProfile name="!local">
+        <Appenders>
+            <Console name="Console" target="SYSTEM_OUT">
+                <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t]
+      %highlight{%level}{FATAL=bg_red, ERROR=red, WARN=yellow, INFO=green, DEBUG=blue} %-50c{1.} - %msg%n"/>
+            </Console>
+            <RollingFile
+                    name="LogToFile"
+                    fileName="/var/log/tomcat/trade_link/app.log"
+                    filePattern="/var/log/tomcat/trade_link/app.%d{yyyy_MM_dd}.log.gz"
+                    ignoreExceptions="false">
+                <PatternLayout>
+                    <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %-50c{1.} - %msg%n</Pattern>
+                </PatternLayout>
+                <Policies>
+                    <TimeBasedTriggeringPolicy interval="1"/>
+                </Policies>
+                <DefaultRolloverStrategy max="5">
+                    <Delete basePath="logs" maxDepth="2">
+                        <IfFileName glob="*/app-*.log.gz"/>
+                        <IfLastModified age="P30D"/>
+                    </Delete>
+                </DefaultRolloverStrategy>
+            </RollingFile>
+        </Appenders>
+        <Loggers>
+            <Root level="INFO">
+                <AppenderRef ref="Console"/>
+                <AppenderRef ref="LogToFile"/>
+            </Root>
+            <Logger name="com.sp.tradelink" level="INFO">
+            </Logger>
+            <Logger name="com.sp.tradelink.services" level="DEBUG">
+            </Logger>
+            <Logger name="org.springframework" level="INFO">
+            </Logger>
+            <Logger name="org.springframework.integration" level="INFO">
+            </Logger>
+            <Logger name="org.springframework.integration.samples" level="INFO">
+            </Logger>
+            <Logger name="org.jpos" level="INFO">
+            </Logger>
+            <Logger name="org.springframework.web.client" level="ALL">
+            </Logger>
+        </Loggers>
+    </springProfile>
+</Configuration>
