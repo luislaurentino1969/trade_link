@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.http.outbound.HttpRequestExecutingMessageHandler;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
+import org.springframework.web.client.ResponseErrorHandler;
+
+import java.io.IOException;
 
 @Configuration
 public class HeartbeatHttpOutboundGatewayConfig {
@@ -36,10 +39,8 @@ public class HeartbeatHttpOutboundGatewayConfig {
     public MessageHandler postServerToDeviceService() {
 
         HttpRequestExecutingMessageHandler handler = new HttpRequestExecutingMessageHandler(serverToDevice);
-        SimpleClientHttpRequestFactory clientFactory = new SimpleClientHttpRequestFactory();
-        clientFactory.setConnectTimeout(2 * 1000);
-        clientFactory.setReadTimeout(95 * 1000);
-        handler.setRequestFactory(clientFactory);
+
+//        handler.setRequestFactory(httpConnectionFactory);
         handler.setHttpMethod(HttpMethod.POST);
         handler.setExpectReply(true);
         handler.setExpectedResponseType(Object.class);
@@ -47,6 +48,19 @@ public class HeartbeatHttpOutboundGatewayConfig {
         handler.onError(new HttpResponseException());
         handler.setExpectedResponseType(QuantumHBResponse.class);
         handler.setLoggingEnabled(true);
+        handler.setSendTimeout(94000);
+        handler.setShouldTrack(true);
+        handler.setErrorHandler(new ResponseErrorHandler() {
+            @Override
+            public boolean hasError(ClientHttpResponse response) throws IOException {
+                return false;
+            }
+
+            @Override
+            public void handleError(ClientHttpResponse response) throws IOException {
+                response.getBody().toString();
+            }
+        });
         return handler;
     }
 

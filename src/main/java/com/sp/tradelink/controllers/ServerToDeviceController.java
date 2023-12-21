@@ -14,7 +14,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.integration.annotation.IntegrationComponentScan;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +21,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("server-to-device/v1")
-@IntegrationComponentScan("com.sp.tradelink")
+//@IntegrationComponentScan("com.sp.tradelink")
 public class ServerToDeviceController {
     private final Logger logger;
 

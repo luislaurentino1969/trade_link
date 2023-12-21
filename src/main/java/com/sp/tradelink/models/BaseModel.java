@@ -16,17 +16,14 @@
 package com.sp.tradelink.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
 
 import java.util.UUID;
 
-@MappedSuperclass
+//@MappedSuperclass
 public abstract class BaseModel {
 
-	@Id
-	@GeneratedValue
+//	@Id
+//	@GeneratedValue
 	@JsonIgnore
 	protected UUID id;
 

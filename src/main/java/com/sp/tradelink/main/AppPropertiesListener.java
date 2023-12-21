@@ -81,24 +81,24 @@ public class AppPropertiesListener extends PropertySourcesPlaceholderConfigurer 
         }
 
 
-        customPropertyMap.put("spring.activemq.broker-url", "tcp://"+ amqServer + ":61616");
+        customPropertyMap.put("spring.activemq.broker-url", "failover:(tcp://"+ amqServer + ":61616?wireFormat.cacheSize=4096&wireFormat.maxInactivityDuration=0,tcp://10.4.1.74:61616?wireFormat.cacheSize=4096&wireFormat.maxInactivityDuration=0)?randomize=true");
         customPropertyMap.put("app.server.to.device.url", quantumCloudURL + "NewServerToDevice");
         customPropertyMap.put("app.device.to.server.url", quantumCloudURL + "NewDeviceToServer");
         customPropertyMap.put("app.upload.raw.message.url", quantumCloudURL + "UploadRawResponse");
 
-        customPropertyMap.put("spring.datasource.url", "jdbc:postgresql://" + dbServer + ":8088/trade_link");
-        customPropertyMap.put("spring.datasource.username", "trade_link_dev");
-        customPropertyMap.put("spring.datasource.password", "$2a$16$WOCTaXGVtJRnbKsmwRtB7.GY6S2DK3P89GVrVEhn6UanHW1ZDFeGO");
-        customPropertyMap.put("spring.datasource.driver-class-name", "org.postgresql.Driver");
-        customPropertyMap.put("spring.jpa.hibernate.ddl-auto", "none");
+//        customPropertyMap.put("spring.datasource.url", "jdbc:postgresql://" + dbServer + ":8088/trade_link");
+//        customPropertyMap.put("spring.datasource.username", "trade_link_dev");
+//        customPropertyMap.put("spring.datasource.password", "$2a$16$WOCTaXGVtJRnbKsmwRtB7.GY6S2DK3P89GVrVEhn6UanHW1ZDFeGO");
+//        customPropertyMap.put("spring.datasource.driver-class-name", "org.postgresql.Driver");
+//        customPropertyMap.put("spring.jpa.hibernate.ddl-auto", "none");
 
         customPropertyMap.put("app.brand.url","http://" + amqServer + "/{{brand_name}}/test-equinox");
 
         customPropertyMap.put("spring.task.execution.pool.core-size", "7");
-        customPropertyMap.put("spring.task.execution.pool.max-size", "100");
-        customPropertyMap.put("spring.task.execution.pool.queue-capacity", "11");
-        customPropertyMap.put("spring.task.execution.thread-name-prefix", "TradeLinkThread-");
-        customPropertyMap.put("spring.task.scheduling.thread-name-prefix", "TradeLinkThread-");
+        customPropertyMap.put("spring.task.execution.pool.max-size", "10");
+        customPropertyMap.put("spring.task.execution.pool.queue-capacity", "10");
+        customPropertyMap.put("spring.task.execution.thread-name-prefix", "TL_Thread-");
+        customPropertyMap.put("spring.task.scheduling.thread-name-prefix", "TL_Thread-");
 
         customPropertyMap.put("spring.activemq.user-name", "admin");
         customPropertyMap.put("spring.activemq.user-pwd", "admin");

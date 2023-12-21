@@ -1,9 +1,8 @@
 package com.sp.tradelink.config;
 
 import com.sp.tradelink.common.RestTemplateLogInterceptor;
+import jakarta.annotation.PreDestroy;
 import jakarta.jms.ConnectionFactory;
-import jakarta.jms.ExceptionListener;
-import jakarta.jms.JMSException;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,13 +10,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.jms.connection.CachingConnectionFactory;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.messaging.MessageChannel;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,14 +36,43 @@ public class AppConfig {
     private String messagingServer;
     @Value("${log.queue}")
     private String logQueue;
+
     @Bean("log-out-channel")
     public MessageChannel logOutChannel() {
         return new DirectChannel();
     }
-    @Bean
-    public RestTemplate restTemplate() {
-        RestTemplate restTemplate = new RestTemplate();
 
+    @Bean
+    public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
+        ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
+        threadPoolTaskScheduler.setPoolSize(1000);
+        threadPoolTaskScheduler.setThreadNamePrefix("TL_Thread");
+        return threadPoolTaskScheduler;
+    }
+
+    @PreDestroy
+    private void terminateThreads() {
+        threadPoolTaskScheduler().shutdown();
+    }
+
+    @Bean
+    public RestTemplate restTemplate() throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+
+//        TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
+//        javax.net.ssl.SSLContext sslContext = SSLContexts.custom()
+//                .loadTrustMaterial(null, acceptingTrustStrategy).build();
+//        SSLConnectionSocketFactory csf = new SSLConnectionSocketFactory(sslContext);
+//        CloseableHttpClient httpClient = HttpClients.custom().build();
+//        HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+//        requestFactory.setHttpClient(httpClient);
+//        requestFactory.setConnectionRequestTimeout(Duration.ofSeconds(94));
+//        requestFactory.setConnectTimeout(Duration.ofSeconds(94));
+//
+        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+        requestFactory.setConnectTimeout(2 * 1000);
+        requestFactory.setReadTimeout(95 * 1000);
+
+        RestTemplate restTemplate = new RestTemplate(requestFactory);
         List<ClientHttpRequestInterceptor> interceptors
                 = restTemplate.getInterceptors();
         if (CollectionUtils.isEmpty(interceptors)) {
@@ -49,7 +82,8 @@ public class AppConfig {
         restTemplate.setInterceptors(interceptors);
         return restTemplate;
     }
-//
+
+    //
 //    @Bean
 //    public HttpComponentsClientHttpRequestFactory requestFactory() {
 //        return new HttpComponentsClientHttpRequestFactory(httpClient());
@@ -81,12 +115,12 @@ public class AppConfig {
     }
 
     @Bean
-    public ConnectionFactory amqConnection(){
+    public ConnectionFactory amqConnection() {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
         connectionFactory.setTargetConnectionFactory(connectionFactory());
-        connectionFactory.setSessionCacheSize(100);
-        connectionFactory.setCacheConsumers(true);
-        connectionFactory.setCacheProducers(true);
+//        connectionFactory.setSessionCacheSize(2000);
+        connectionFactory.setCacheConsumers(false);
+        connectionFactory.setCacheProducers(false);
         connectionFactory.setReconnectOnException(true);
         connectionFactory.setExceptionListener(e -> getLogger().error("Broker cached connection error.", e));
         return connectionFactory;
